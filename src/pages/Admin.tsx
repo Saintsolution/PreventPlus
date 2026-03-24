@@ -1,160 +1,131 @@
 import { useState, useEffect } from 'react';
-import { Lock, LogOut, Users, Eye, UserPlus, Copy, Check, CreditCard as Edit, BarChart3, Search, DollarSign } from 'lucide-react';
+import { 
+  Trophy, Phone, MapPin, Search, LogOut, BarChart3, 
+  Lock, Settings, DollarSign, UserPlus, Edit2, Loader2 
+} from 'lucide-react';
 
-interface Indicator {
-  id: string;
-  nome_contato: string | null;
-  whatsapp: string | null;
-  local: string | null;
-  ativo: boolean;
-  visitas: number;
-  leads: number;
-  vendas: number; // Novo campo para a demo
-}
+// MODAIS (Certifique-se que os arquivos existem em src/components)
+import { ModalPrecos } from '../components/ModalPrecos';
+import { ModalVenda } from '../components/ModalVenda';
+import { ModalIndicador } from '../components/ModalIndicador';
 
 export function Admin() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
-  const [indicators, setIndicators] = useState<Indicator[]>([]);
-  const [selectedIndicator, setSelectedIndicator] = useState<string | null>(null);
-  const [editingData, setEditingData] = useState({
-    nome_contato: '',
-    whatsapp: '',
-    local: '',
-  });
-  const [copiedId, setCopiedId] = useState<string | null>(null);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [activeModal, setActiveModal] = useState<null | 'precos' | 'venda' | 'indicador'>(null);
+  const [selectedIndicador, setSelectedIndicador] = useState<any>(null);
+  const [indicadores, setIndicadores] = useState<any[]>([]);
+  const [precos, setPrecos] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const N8N_URL = "https://n8n.saintsolution.com.br/webhook/8f6225fa-b5cf-41a0-813e-2b158daf1464";
+
+  // 1. CARREGAR DADOS REAIS
+  const loadDashboard = async () => {
+    if (!isAuthenticated) return;
+    setLoading(true);
+    try {
+      const res = await fetch(N8N_URL);
+      const data = await res.json();
+      
+      // Se o n8n retornar um array direto, usamos ele. Se retornar objeto, pegamos a chave.
+      const listaIndicadores = Array.isArray(data) ? data : (data.indicadores || []);
+      const listaPrecos = data.precos || [];
+
+      // LÓGICA DE RANKING GEMINI
+      const sorted = [...listaIndicadores].sort((a, b) => {
+        const vendasA = Number(a.vendas) || 0;
+        const vendasB = Number(b.vendas) || 0;
+        
+        if (vendasB !== vendasA) return vendasB - vendasA;
+
+        const diasA = Math.max(1, (new Date().getTime() - new Date(a.data_inicio || Date.now()).getTime()) / 86400000);
+        const diasB = Math.max(1, (new Date().getTime() - new Date(b.data_inicio || Date.now()).getTime()) / 86400000);
+        
+        return (vendasB / diasB) - (vendasA / diasA);
+      });
+
+      setIndicadores(sorted);
+      if (listaPrecos.length > 0) setPrecos(listaPrecos);
+    } catch (err) {
+      console.error("Erro ao carregar Saint Base:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const authStatus = sessionStorage.getItem('admin_auth');
-    if (authStatus === 'true') {
-      setIsAuthenticated(true);
-      loadIndicators();
-    }
-  }, []);
+    loadDashboard();
+  }, [isAuthenticated]);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === 'admin123') {
-      setIsAuthenticated(true);
-      sessionStorage.setItem('admin_auth', 'true');
-      loadIndicators();
-    } else {
-      alert('Senha incorreta');
-    }
+    if (password === 'admin123') setIsAuthenticated(true);
+    else alert("Senha incorreta!");
   };
 
-  const handleLogout = () => {
-    setIsAuthenticated(false);
-    sessionStorage.removeItem('admin_auth');
-    window.location.href = '/';
-  };
-
-  const loadIndicators = async () => {
+  // 2. SALVAR INDICADOR (NOVO OU EDIÇÃO)
+  const handleSaveIndicador = async (dados: any) => {
     setLoading(true);
-    setTimeout(() => {
-      const fakeData: Indicator[] = Array.from({ length: 50 }, (_, i) => {
-        const id = (i + 1).toString().padStart(3, '0');
-        const exemplos = [
-          { nome: "Porteiro Wilson", local: "Edifício Malibu - Barra", tel: "(21) 98888-1111", v: 145, l: 12, s: 2 },
-          { nome: "Zelador Sebastião", local: "Condomínio Dubai - Recreio", tel: "(21) 97777-2222", v: 82, l: 5, s: 1 },
-          { nome: "Jorge (Banca de Jornal)", local: "Esquina Unidade Rússia", tel: "(21) 96666-3333", v: 340, l: 28, s: 5 }
-        ];
-
-        return {
-          id: id,
-          nome_contato: exemplos[i]?.nome || null,
-          whatsapp: exemplos[i]?.tel || null,
-          local: exemplos[i]?.local || null,
-          ativo: !!exemplos[i],
-          visitas: exemplos[i]?.v || 0,
-          leads: exemplos[i]?.l || 0,
-          vendas: exemplos[i]?.s || 0,
-        };
+    try {
+      await fetch(N8N_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          action: selectedIndicador ? 'UPDATE_INDICADOR' : 'INSERT_INDICADOR',
+          ...dados 
+        })
       });
-
-      setIndicators(fakeData);
-      setLoading(false);
-    }, 800);
-  };
-
- const handleRegisterSale = (id: string) => {
-    const indicador = indicators.find(i => i.id === id);
-    const nome = indicador?.nome_contato || `ID ${id}`;
-    
-    // Simulação de fluxo de fechamento
-    const plano = prompt(`Registrar venda para ${nome}:\n1 - Enfermaria\n2 - Apartamento`, "1");
-    
-    if (plano) {
-      const formaPgto = prompt(`Forma de Recebimento:\n1 - PIX/Dinheiro (Manual)\n2 - Link Asaas (Cartão/Boleto)`, "1");
       
-      if (formaPgto) {
-        alert(`Venda registrada com sucesso!\n\nID: ${id}\nIndicador: ${nome}\nPlano: ${plano === "1" ? "Enfermaria" : "Apartamento"}\nOrigem: ${formaPgto === "1" ? "Manual (PIX/Dinheiro)" : "Digital (Asaas)"}\n\nO n8n já está processando o bônus do indicador.`);
-        loadIndicators();
-      }
+      alert("Planilha atualizada com sucesso!");
+      setActiveModal(null);
+      loadDashboard();
+    } catch (err) {
+      alert("Erro ao conectar com o servidor.");
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleSelectIndicator = (id: string) => {
-    const indicator = indicators.find((i) => i.id === id);
-    if (indicator) {
-      setSelectedIndicator(id);
-      setEditingData({
-        nome_contato: indicator.nome_contato || '',
-        whatsapp: indicator.whatsapp || '',
-        local: indicator.local || '',
+  // 3. REGISTRAR VENDA (BAIXA MANUAL)
+  const registrarVenda = async (cliente: string, plano: string) => {
+    setLoading(true);
+    try {
+      await fetch(N8N_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          action: 'REGISTRAR_VENDA',
+          indicador_id: selectedIndicador?.id,
+          cliente,
+          plano
+        })
       });
+      alert("Venda registrada!");
+      setActiveModal(null);
+      loadDashboard();
+    } catch (err) {
+      alert("Erro ao registrar venda.");
+    } finally {
+      setLoading(false);
     }
   };
-
-  const handleSaveIndicator = async () => {
-    if (!selectedIndicator) return;
-    alert(`Modo Demo: O indicador ${selectedIndicator} foi atualizado.`);
-    setSelectedIndicator(null);
-    loadIndicators();
-  };
-
-  const copyLink = (id: string) => {
-    const link = `${window.location.origin}/?ref=${id}`;
-    navigator.clipboard.writeText(link);
-    setCopiedId(id);
-    setTimeout(() => setCopiedId(null), 2000);
-  };
-
-  const filteredIndicators = indicators.filter(
-    (ind) =>
-      ind.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      ind.nome_contato?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      ind.local?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const totalVisits = indicators.reduce((sum, ind) => sum + ind.visitas, 0);
-  const totalLeads = indicators.reduce((sum, ind) => sum + ind.leads, 0);
-  const totalSales = indicators.reduce((sum, ind) => sum + ind.vendas, 0);
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-[#0A2540] flex items-center justify-center p-4">
-        <div className="bg-white rounded-[40px] shadow-2xl p-10 w-full max-w-md text-center">
-          <div className="w-20 h-20 bg-[#D4AF37] rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-lg shadow-[#D4AF37]/20">
-            <Lock className="w-10 h-10 text-[#0A2540]" />
-          </div>
-          <h1 className="text-3xl font-black text-[#0A2540] mb-2 uppercase tracking-tight">Login Admin</h1>
-          <p className="text-gray-400 font-medium mb-10 text-sm">Controle de Panfletagem PreventPlus</p>
-
-          <form onSubmit={handleLogin} className="space-y-6 text-left">
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-6 py-4 rounded-2xl bg-gray-50 border-2 border-transparent focus:border-[#D4AF37] outline-none transition-all text-center text-xl tracking-[0.5em]"
-              placeholder="••••••"
-              required
+      <div className="min-h-screen bg-[#0A2540] flex items-center justify-center p-6 font-sans">
+        <div className="bg-white rounded-[40px] p-10 shadow-2xl w-full max-w-sm text-center">
+          <Lock className="w-12 h-12 text-[#D4AF37] mx-auto mb-6" />
+          <h2 className="text-2xl font-black text-[#0A2540] mb-8 uppercase italic tracking-tighter">Acesso Saint</h2>
+          <form onSubmit={handleLogin} className="space-y-4">
+            <input 
+              type="password" 
+              placeholder="SENHA" 
+              className="w-full px-6 py-4 rounded-2xl bg-gray-50 text-center font-black outline-none focus:ring-2 ring-[#D4AF37]" 
+              onChange={(e) => setPassword(e.target.value)} 
             />
-            <button type="submit" className="w-full bg-[#0A2540] hover:bg-[#0D3A5F] text-white py-5 rounded-2xl font-black text-lg transition-all shadow-xl">
-              ACESSAR PAINEL
-            </button>
+            <button className="w-full bg-[#0A2540] text-white py-4 rounded-2xl font-black uppercase tracking-widest shadow-lg">Entrar</button>
           </form>
         </div>
       </div>
@@ -162,110 +133,121 @@ export function Admin() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
-      <header className="bg-white border-b border-gray-100 sticky top-0 z-40">
-        <div className="container mx-auto px-6 py-5 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-[#0A2540] rounded-2xl flex items-center justify-center"><BarChart3 className="w-6 h-6 text-[#D4AF37]" /></div>
-            <div>
-              <h1 className="text-xl font-black text-[#0A2540] leading-none uppercase tracking-tighter">Ricardo Admin</h1>
-              <p className="text-[10px] font-bold text-[#D4AF37] uppercase tracking-[0.2em] mt-1">Gestão de Vendas PreventPlus</p>
-            </div>
-          </div>
-          <button onClick={handleLogout} className="text-gray-400 hover:text-red-500 transition-colors"><LogOut className="w-6 h-6" /></button>
+    <div className="min-h-screen bg-[#F8FAFC] flex flex-col lg:flex-row font-sans">
+      <aside className="w-full lg:w-72 bg-[#0A2540] p-8 text-white flex flex-col shrink-0 sticky top-0 h-screen">
+        <div className="mb-10">
+          <h1 className="text-2xl font-black italic tracking-tighter text-[#D4AF37]">SaintSolution</h1>
+          <p className="text-[9px] font-bold uppercase tracking-[0.3em]">Gestão PreventPlus</p>
         </div>
-      </header>
-
-      <div className="container mx-auto px-6 py-10">
-        <div className="grid md:grid-cols-3 gap-6 mb-10">
-          <div className="bg-white p-8 rounded-[32px] shadow-sm border border-gray-100">
-            <p className="text-xs font-black text-gray-400 uppercase tracking-widest mb-2">Visitas Totais</p>
-            <div className="text-4xl font-black text-[#0A2540]">{totalVisits}</div>
-          </div>
-          <div className="bg-white p-8 rounded-[32px] shadow-sm border border-gray-100">
-            <p className="text-xs font-black text-gray-400 uppercase tracking-widest mb-2">Leads Gerados</p>
-            <div className="text-4xl font-black text-[#0A2540]">{totalLeads}</div>
-          </div>
-          <div className="bg-[#D4AF37] p-8 rounded-[32px] shadow-lg">
-            <p className="text-xs font-black text-[#0A2540] uppercase tracking-widest mb-2">Vendas Fechadas</p>
-            <div className="text-4xl font-black text-[#0A2540]">{totalSales}</div>
-          </div>
+        
+        <div className="space-y-3">
+          <button 
+            onClick={() => setActiveModal(null)} 
+            className={`w-full flex items-center gap-4 p-4 rounded-2xl font-black text-[10px] uppercase transition-all ${!activeModal ? 'bg-[#D4AF37] text-[#0A2540]' : 'text-gray-400 hover:bg-white/5'}`}
+          >
+            <BarChart3 className="w-5 h-5" /> Dashboard
+          </button>
+          <button 
+            onClick={() => { setSelectedIndicador(null); setActiveModal('indicador'); }} 
+            className="w-full flex items-center gap-4 p-4 rounded-2xl text-gray-400 hover:bg-white/5 font-black text-[10px] uppercase transition-all"
+          >
+            <UserPlus className="w-5 h-5" /> Novo Parceiro
+          </button>
+          <button 
+            onClick={() => setActiveModal('precos')} 
+            className={`w-full flex items-center gap-4 p-4 rounded-2xl font-black text-[10px] uppercase transition-all ${activeModal === 'precos' ? 'bg-[#D4AF37] text-[#0A2540]' : 'text-gray-400 hover:bg-white/5'}`}
+          >
+            <Settings className="w-5 h-5" /> Editar Preços
+          </button>
         </div>
 
-        <div className="bg-white rounded-[32px] shadow-sm border border-gray-100 overflow-hidden">
-          <div className="p-8 border-b border-gray-50 flex flex-col md:flex-row justify-between items-center gap-6">
-            <h2 className="text-2xl font-black text-[#0A2540] tracking-tight">Indicadores (001-050)</h2>
-            <div className="relative w-full md:w-96">
-              <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-300" />
-              <input
-                type="text"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-14 pr-6 py-4 rounded-2xl bg-gray-50 border-none outline-none focus:ring-2 focus:ring-[#D4AF37]/50 font-bold"
-                placeholder="Buscar por nome ou bairro..."
-              />
-            </div>
-          </div>
+        <button onClick={() => setIsAuthenticated(false)} className="mt-auto flex items-center gap-3 text-gray-500 font-black text-[10px] uppercase hover:text-red-400 transition-colors">
+          <LogOut className="w-4 h-4" /> Sair
+        </button>
+      </aside>
 
-          <div className="overflow-x-auto">
-            <table className="w-full text-left">
-              <thead className="bg-gray-50/50 text-[10px] font-black uppercase tracking-[0.15em] text-gray-400">
-                <tr>
-                  <th className="px-8 py-5">Ref ID</th>
-                  <th className="px-8 py-5">Responsável</th>
-                  <th className="px-8 py-5 text-center">Métricas (V/L/V)</th>
-                  <th className="px-8 py-5 text-right">Ações Rápidas</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-50">
-                {filteredIndicators.map((ind) => (
-                  <tr key={ind.id} className="group hover:bg-gray-50/50 transition-all">
-                    <td className="px-8 py-6 font-black text-blue-600 text-lg">{ind.id}</td>
-                    <td className="px-8 py-6">
-                      <div className="font-bold text-[#0A2540]">{ind.nome_contato || 'Disponível'}</div>
-                      <div className="text-xs font-medium text-gray-400">{ind.local || 'Sem localização'}</div>
-                    </td>
-                    <td className="px-8 py-6">
-                      <div className="flex items-center justify-center gap-3">
-                        <div className="text-center px-3 py-1 bg-gray-100 rounded-lg text-[10px] font-black">V: {ind.visitas}</div>
-                        <div className="text-center px-3 py-1 bg-green-50 text-green-700 rounded-lg text-[10px] font-black">L: {ind.leads}</div>
-                        <div className="text-center px-3 py-1 bg-[#D4AF37]/20 text-[#0A2540] rounded-lg text-[10px] font-black uppercase">Fechadas: {ind.vendas}</div>
-                      </div>
-                    </td>
-                    <td className="px-8 py-6">
-                      <div className="flex justify-end gap-3">
-                        <button onClick={() => handleRegisterSale(ind.id)} title="Registrar Venda" className="p-3 bg-green-500 text-white rounded-xl hover:bg-green-600 transition-all shadow-lg shadow-green-500/20"><DollarSign className="w-4 h-4" /></button>
-                        <button onClick={() => handleSelectIndicator(ind.id)} title="Editar" className="p-3 bg-white border border-gray-100 rounded-xl hover:bg-gray-50 transition-all"><Edit className="w-4 h-4 text-gray-400" /></button>
-                        <button onClick={() => copyLink(ind.id)} title="Copiar Link" className="p-3 bg-white border border-gray-100 rounded-xl hover:bg-gray-50 transition-all">
-                          {copiedId === ind.id ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4 text-gray-400" />}
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+      <main className="flex-1 p-6 lg:p-10 overflow-y-auto">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12">
+          <h2 className="text-3xl font-black text-[#0A2540] tracking-tighter uppercase italic">Performance Real</h2>
+          <div className="relative w-full md:w-80">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-300" />
+            <input 
+              type="text" 
+              placeholder="Filtrar por nome..." 
+              className="w-full pl-12 pr-4 py-3 rounded-2xl bg-white shadow-sm font-bold text-sm outline-none" 
+              onChange={(e) => setSearchTerm(e.target.value)} 
+            />
           </div>
         </div>
-      </div>
 
-      {/* MODAL DE EDIÇÃO MANTIDO */}
-      {selectedIndicator && (
-        <div className="fixed inset-0 bg-[#0A2540]/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-[40px] max-w-md w-full shadow-2xl p-10">
-            <h3 className="text-2xl font-black text-[#0A2540] mb-8 uppercase tracking-tight">Editar ID {selectedIndicator}</h3>
-            <div className="space-y-6 mb-10">
-              <input type="text" value={editingData.nome_contato} onChange={(e) => setEditingData({ ...editingData, nome_contato: e.target.value })} className="w-full px-6 py-4 rounded-2xl bg-gray-50 border-none outline-none focus:ring-2 focus:ring-[#D4AF37] font-bold" placeholder="Nome do Indicador" />
-              <input type="tel" value={editingData.whatsapp} onChange={(e) => setEditingData({ ...editingData, whatsapp: e.target.value })} className="w-full px-6 py-4 rounded-2xl bg-gray-50 border-none outline-none focus:ring-2 focus:ring-[#D4AF37] font-bold" placeholder="WhatsApp" />
-              <input type="text" value={editingData.local} onChange={(e) => setEditingData({ ...editingData, local: e.target.value })} className="w-full px-6 py-4 rounded-2xl bg-gray-50 border-none outline-none focus:ring-2 focus:ring-[#D4AF37] font-bold" placeholder="Local / Bairro" />
+        <div className="grid gap-4">
+          {indicadores.length > 0 ? (
+            indicadores.filter(i => i.nome?.toLowerCase().includes(searchTerm.toLowerCase())).map((ind, index) => (
+              <div key={ind.id} className="bg-white rounded-[32px] p-6 shadow-sm border border-gray-100 flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative group transition-all">
+                <div className={`absolute top-0 left-0 w-2 h-full ${index === 0 ? 'bg-[#D4AF37]' : 'bg-gray-100'}`}></div>
+                
+                <div className="flex items-center gap-6 min-w-[250px]">
+                  <div className="w-12 h-12 bg-gray-50 rounded-xl flex items-center justify-center font-black text-[#0A2540]">{ind.id}</div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <h3 className="font-black text-[#0A2540] uppercase text-sm">{ind.nome}</h3>
+                      <button 
+                        onClick={() => { setSelectedIndicador(ind); setActiveModal('indicador'); }} 
+                        className="text-gray-300 hover:text-[#D4AF37] transition-colors"
+                      >
+                        <Edit2 className="w-3 h-3"/>
+                      </button>
+                    </div>
+                    <p className="text-[10px] text-gray-400 font-bold uppercase"><MapPin className="w-3 h-3 inline mr-1" />{ind.local}</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-8 bg-gray-50/50 py-4 px-6 rounded-2xl">
+                  <div className="text-center"><p className="text-[8px] font-black text-gray-400 uppercase">Vendas</p><p className="font-black text-[#0A2540] text-lg">{ind.vendas || 0}</p></div>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <a href={`https://wa.me/${ind.whatsapp}`} target="_blank" className="p-4 bg-green-50 text-green-500 rounded-2xl hover:bg-green-500 hover:text-white transition-all">
+                    <Phone className="w-5 h-5" />
+                  </a>
+                  <button 
+                    onClick={() => { setSelectedIndicador(ind); setActiveModal('venda'); }}
+                    className="px-6 py-4 bg-green-600 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest flex items-center gap-2 hover:bg-[#0A2540] transition-all shadow-lg shadow-green-900/10"
+                  >
+                    <DollarSign className="w-4 h-4" /> Venda Fechada
+                  </button>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="p-20 text-center text-gray-300 font-black uppercase">
+              {loading ? "Carregando dados da Saint Base..." : "Nenhum indicador encontrado na planilha."}
             </div>
-            <div className="flex gap-4">
-              <button onClick={() => setSelectedIndicator(null)} className="flex-1 font-bold text-gray-400">Cancelar</button>
-              <button onClick={handleSaveIndicator} className="flex-1 bg-[#D4AF37] text-[#0A2540] py-4 rounded-2xl font-black transition-all shadow-lg shadow-[#D4AF37]/20 uppercase">Salvar</button>
-            </div>
-          </div>
+          )}
         </div>
-      )}
+      </main>
+
+      {/* MODAIS */}
+      <ModalPrecos 
+        isOpen={activeModal === 'precos'} 
+        onClose={() => setActiveModal(null)} 
+        precos={precos} 
+        setPrecos={setPrecos} 
+        onSave={() => {}} 
+        loading={loading} 
+      />
+      <ModalVenda 
+        isOpen={activeModal === 'venda'} 
+        onClose={() => setActiveModal(null)} 
+        indicadorNome={selectedIndicador?.nome || ''} 
+        onConfirm={registrarVenda} 
+      />
+      <ModalIndicador 
+        isOpen={activeModal === 'indicador'} 
+        onClose={() => setActiveModal(null)} 
+        indicadorParaEditar={selectedIndicador} 
+        onSave={handleSaveIndicador} 
+      />
     </div>
   );
 }

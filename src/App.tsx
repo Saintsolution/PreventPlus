@@ -11,6 +11,8 @@ import { useReferralTracking } from './hooks/useReferralTracking';
 function App() {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isAdminRoute, setIsAdminRoute] = useState(false);
+  
+  // 1. PUXANDO O REF_ID DO SEU HOOK (O MOTOR DE RASTREIO)
   const { refId } = useReferralTracking();
 
   useEffect(() => {
@@ -29,22 +31,28 @@ function App() {
   }
 
   return (
-    <>
-      <div className="min-h-screen bg-white">
-        <Hero onCTAClick={() => setIsFormOpen(true)} />
-        <Differentials />
-        <Network />
-        <Pricing onCTAClick={() => setIsFormOpen(true)} />
-        <Footer />
-      </div>
+    <div className="min-h-screen bg-white">
+      {/* 2. PASSANDO A FUNÇÃO DE ABRIR O FORMULÁRIO */}
+      <Hero onCTAClick={() => setIsFormOpen(true)} />
+      
+      <Differentials />
+      
+      <Network />
+      
+      {/* 3. A TABELA DE PREÇOS QUE VOCÊ JÁ DINAMIZOU */}
+      <Pricing onCTAClick={() => setIsFormOpen(true)} />
+      
+      <Footer />
 
-      <LeadForm
-        isOpen={isFormOpen}
-        onClose={() => setIsFormOpen(false)}
-        refId={refId}
+      {/* 4. O FORMULÁRIO DE LEAD COM O REF_ID CORRIGIDO */}
+      <LeadForm 
+        isOpen={isFormOpen} 
+        onClose={() => setIsFormOpen(false)} 
+        refId={refId || null} 
       />
-    </>
+    </div>
   );
 }
 
 export default App;
+

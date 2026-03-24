@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { supabase } from '../lib/supabase';
 
 const REFERRAL_KEY = 'preventplus_ref_id';
 
@@ -11,10 +10,12 @@ export function useReferralTracking() {
     const urlRefId = params.get('ref');
 
     if (urlRefId) {
+      // Formata com zeros (ex: 1 vira 0001)
       const formattedRefId = urlRefId.padStart(4, '0');
       localStorage.setItem(REFERRAL_KEY, formattedRefId);
       setRefId(formattedRefId);
-
+      
+      // Dispara o rastro da visita
       trackVisit(formattedRefId);
     } else {
       const storedRefId = localStorage.getItem(REFERRAL_KEY);
@@ -24,25 +25,22 @@ export function useReferralTracking() {
     }
   }, []);
 
-  const trackVisit = async (refId: string) => {
+  // FUNÇÃO DE RASTREIO VIA WEBHOOK (N8N)
+  const trackVisit = async (id: string) => {
     try {
-      await supabase.from('visitas').insert({
-        ref_id: refId,
-        user_agent: navigator.userAgent,
-      });
-
       const webhookUrl = import.meta.env.VITE_WEBHOOK_URL;
+      
       if (webhookUrl) {
         fetch(webhookUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             type: 'visit',
-            ref_id: refId,
+            ref_id: id,
             timestamp: new Date().toISOString(),
             user_agent: navigator.userAgent,
           }),
-        }).catch(() => {});
+        }).catch(() => console.log("n8n offline, mas visita registrada localmente."));
       }
     } catch (error) {
       console.error('Error tracking visit:', error);
@@ -53,5 +51,8 @@ export function useReferralTracking() {
     return refId || localStorage.getItem(REFERRAL_KEY);
   };
 
-  return { refId: getRefId(), trackVisit };
+  return { 
+    refId: getRefId(), 
+    trackVisit 
+  };
 }
