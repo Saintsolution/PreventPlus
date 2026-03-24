@@ -19,7 +19,7 @@ export function Admin() {
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
-  const N8N_URL = "https://n8n.saintsolution.com.br/webhook/8f6225fa-b5cf-41a0-813e-2b158daf1464";
+  const N8N_URL = "https://n8n.saintsolution.com.br/webhook/a57e4858-d4d7-4071-8a94-2b1589d618c7";
 
   // 1. CARREGAR DADOS REAIS
   const loadDashboard = async () => {

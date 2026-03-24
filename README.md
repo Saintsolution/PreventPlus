@@ -38,7 +38,7 @@ Atualize o arquivo `.env` com suas credenciais:
 ```env
 VITE_SUPABASE_URL=sua-url-do-supabase
 VITE_SUPABASE_ANON_KEY=sua-chave-anonima
-VITE_WEBHOOK_URL=https://seu-webhook-n8n.com/preventplus
+VITE_WEBHOOK_URL=https://n8n.saintsolution.com.br/webhook/a57e4858-d4d7-4071-8a94-2b1589d618c7
 ```
 
 ### 2. Instalação
