@@ -4,18 +4,18 @@ export function Differentials() {
   const differentials = [
     {
       icon: User,
-      title: 'Plano Individual',
-      description: 'SEM COPARTICIPAÇÃO. Você paga um valor fixo mensal sem surpresas.',
+      title: 'Portabilidade Segura',
+      description: 'Mude para a PREVENT SENIOR mantendo seus direitos. Analisamos sua portabilidade para garantir toda as suas coberturs atuais sem perda',
     },
     {
       icon: MapPin,
-      title: 'Cobertura Ampla',
-      description: 'Atendimento completo em São Paulo e Rio de Janeiro.',
+      title: 'Segurança Financeira',
+      description: 'Mensalidade sem surpresas após os 50 anos.Desfrute da única segurança financeira real: zero reajuste por idade.',
     },
     {
       icon: TrendingDown,
-      title: 'Sem Reajuste por Idade',
-      description: 'A partir dos 44 anos, seu plano não sofre reajuste de faixa etária.',
+      title: 'Sem Coparticipação',
+      description: 'Use o quanto precisar, sem custos adicionais.Valor fixo mensal. Sem taxas por consultas ou exames e sem surpresas na fatura.',
     },
     {
       icon: Brain,

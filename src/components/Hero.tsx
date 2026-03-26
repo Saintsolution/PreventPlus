@@ -22,19 +22,19 @@ export function Hero({ onCTAClick }: HeroProps) {
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight">
-              Cuidar bem é entregar{' '}
+              PREVENT {' '}
               <span className="text-[#D4AF37] relative">
-                mais
+                PLUS
                 <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#D4AF37] to-transparent"></div>
               </span>
               <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/70">
-                A evolução da saúde sênior
+                Viver bem é nosso PLANO
               </span>
             </h1>
 
             <p className="text-xl text-white/80 leading-relaxed max-w-xl">
-              Oferecemos saúde de excelência com acolhimento, tecnologia e inovação para o público sênior há mais de 28 anos.
+              Consultoria especializada em Prevent Senior. Atendimento presencial e humanizado com a segurança de quem atua há três décadas no mercado de saúde.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">

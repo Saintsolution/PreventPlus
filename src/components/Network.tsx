@@ -101,23 +101,23 @@ export function Network() {
             </div>
             <div>
               <h3 className="text-3xl font-bold text-[#0A2540] mb-4">
-                Tecnologia e Humanização
+                Nosso Jeito de Cuidar
               </h3>
               <p className="text-gray-600 leading-relaxed mb-6">
-                Nossas unidades combinam o que há de mais moderno em tecnologia médica com um ambiente acolhedor e humanizado. Cada espaço foi cuidadosamente projetado para proporcionar não apenas tratamento médico de excelência, mas uma experiência completa de bem-estar.
+                Na Prevent Plus, acreditamos que a saúde vai muito além de uma carteirinha. Nossa missão é oferecer a excelência da Prevent Senior com um olhar humano e carinhoso. Entendemos que cada história é única e, por isso, priorizamos o atendimento personalizado para que você se sinta seguro em todas as etapas.
               </p>
               <div className="space-y-3">
                 <div className="flex items-center gap-3">
                   <div className="w-2 h-2 bg-[#D4AF37] rounded-full"></div>
-                  <span className="text-gray-700">Equipamentos de última geração</span>
+                  <span className="text-gray-700">30 Anos de Expertise: Três décadas de experiência no mercado de saúde suplementar.</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="w-2 h-2 bg-[#D4AF37] rounded-full"></div>
-                  <span className="text-gray-700">Equipe altamente qualificada</span>
+                  <span className="text-gray-700">Atendimento Presencial: Valorizamos o olho no olho e a conversa clara.</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="w-2 h-2 bg-[#D4AF37] rounded-full"></div>
-                  <span className="text-gray-700">Ambientes projetados para o conforto</span>
+                  <span className="text-gray-700">Olhar Humano: Consultoria feita por pessoas, para pessoas, com foco no seu bem-estar.</span>
                 </div>
               </div>
             </div>
