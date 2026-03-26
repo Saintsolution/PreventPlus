@@ -1,96 +1,100 @@
-import { ArrowRight, Shield } from 'lucide-react';
+import { User, DollarSign, TrendingDown, Shield, MessageCircle } from 'lucide-react';
 
+// Interface para o App.tsx não dar erro
 interface HeroProps {
   onCTAClick: () => void;
 }
 
 export function Hero({ onCTAClick }: HeroProps) {
+  const mainDifferentials = [
+    { icon: User, title: 'Portabilidade Segura', description: 'Mude para a PREVENT SENIOR mantendo seus direitos. Analisamos sua carência sem perda de cobertura.' },
+    { icon: DollarSign, title: 'Segurança Financeira', description: 'Mensalidade sem surpresas após os 50 anos. Zero reajuste por mudança de faixa etária.' },
+    { icon: TrendingDown, title: 'Sem Coparticipação', description: 'Use o quanto precisar, sem custos adicionais. Valor fixo mensal sem taxas extras.' },
+  ];
+
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-[#0A2540] via-[#0D3A5F] to-[#0A2540]">
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute inset-0 bg-[url('https://images.pexels.com/photos/4269492/pexels-photo-4269492.jpeg?auto=compress&cs=tinysrgb&w=1920')] bg-cover bg-center"></div>
+    <section className="relative bg-[#0A2540] pt-10 pb-28 overflow-hidden">
+      <div className="absolute inset-0 z-0">
+        <img src="https://images.pexels.com/photos/4269492/pexels-photo-4269492.jpeg?auto=compress&cs=tinysrgb&w=1920" className="w-full h-full object-cover opacity-20" alt="Fundo" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0A2540]/40 via-[#0A2540] to-[#0A2540]"></div>
       </div>
 
-      <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-white/5 to-transparent"></div>
+      <div className="container mx-auto px-4 relative z-10">
+        
+        {/* BANNER REFORMULADO: Azul Petróleo, bordas médias, letras Amarelas/Brancas */}
+        <div className="mb-20 bg-[#0D3A5F] rounded-[32px] py-12 px-10 shadow-2xl border border-white/10 text-center relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent"></div>
+          
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black uppercase italic tracking-tighter leading-tight">
+            <span className="text-white">Diferença</span><br className="md:hidden" />
+            <span className="text-[#D4AF37]"> que Transforma</span>
+          </h2>
+        </div>
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div className="text-white space-y-8">
-            <div className="inline-flex items-center gap-2 bg-[#D4AF37]/20 backdrop-blur-sm px-4 py-2 rounded-full border border-[#D4AF37]/30">
+        <div className="grid lg:grid-cols-2 gap-16 items-start">
+          <div className="space-y-12">
+            <div className="inline-flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full border border-white/10">
               <Shield className="w-4 h-4 text-[#D4AF37]" />
-              <span className="text-sm font-medium text-[#D4AF37]">28 anos de excelência em saúde</span>
+              <span className="text-sm font-black text-white uppercase italic">Consultoria Premium</span>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight">
-              PREVENT {' '}
-              <span className="text-[#D4AF37] relative">
-                PLUS
-                <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#D4AF37] to-transparent"></div>
-              </span>
-              <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/70">
-                Viver bem é nosso PLANO
-              </span>
-            </h1>
+            <div className="space-y-10">
+              {mainDifferentials.map((item, index) => {
+                const Icon = item.icon;
+                return (
+                  <div key={index} className="flex gap-6 group items-start">
+                    <div className="flex-shrink-0 w-16 h-16 bg-white/5 rounded-2xl flex items-center justify-center border border-white/10 group-hover:bg-[#D4AF37] transition-all">
+                      <Icon className="w-8 h-8 text-[#D4AF37] group-hover:text-[#0A2540]" />
+                    </div>
+                    <div className="pt-2">
+                      <h3 className="text-2xl font-black text-[#D4AF37] uppercase italic mb-2 tracking-tight">{item.title}</h3>
+                      <p className="text-white/80 leading-relaxed text-lg font-medium">{item.description}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
 
-            <p className="text-xl text-white/80 leading-relaxed max-w-xl">
-              Consultoria especializada em Prevent Senior. Atendimento presencial e humanizado com a segurança de quem atua há três décadas no mercado de saúde.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-4">
-              <button
+            {/* --- NOVO BOTÃO: SOLICITAR COTAÇÃO (ALINHADO À ESQUERDA) --- */}
+            <div className="pt-4 text-left">
+              <button 
                 onClick={onCTAClick}
-                className="group bg-[#D4AF37] hover:bg-[#B8941F] text-[#0A2540] px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 flex items-center justify-center gap-2 shadow-xl shadow-[#D4AF37]/20 hover:shadow-2xl hover:shadow-[#D4AF37]/30 hover:scale-105"
+                className="
+                  group
+                  inline-flex items-center gap-3 
+                  bg-[#0A2540] 
+                  border-2 border-[#D4AF37]/50 
+                  text-white 
+                  px-10 py-5 
+                  rounded-2xl 
+                  font-black uppercase tracking-[3px] text-sm italic
+                  shadow-2xl shadow-[#D4AF37]/10
+                  hover:bg-[#D4AF37] hover:text-[#0A2540] hover:border-[#D4AF37]
+                  transition-all duration-300 transform hover:scale-105 active:scale-95
+                "
               >
                 Solicitar Cotação
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                <MessageCircle className="w-5 h-5 text-[#D4AF37] group-hover:text-[#0A2540]" />
               </button>
-
-              <a
-                href="https://wa.me/5511999999999"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 border border-white/20 hover:border-white/40 text-center"
-              >
-                Falar com Consultor
-              </a>
             </div>
+            {/* ------------------------------------------------------------ */}
 
-            <div className="flex items-center gap-8 pt-8 border-t border-white/10">
-              <div>
-                <div className="text-3xl font-bold text-[#D4AF37]">28+</div>
-                <div className="text-sm text-white/60">Anos de história</div>
-              </div>
-              <div>
-                <div className="text-3xl font-bold text-[#D4AF37]">5</div>
-                <div className="text-sm text-white/60">Unidades temáticas</div>
-              </div>
-              <div>
-                <div className="text-3xl font-bold text-[#D4AF37]">24/7</div>
-                <div className="text-sm text-white/60">Telemedicina</div>
-              </div>
-            </div>
           </div>
 
-          <div className="relative hidden lg:block">
-            <div className="absolute inset-0 bg-gradient-to-tr from-[#D4AF37]/20 to-transparent rounded-3xl blur-3xl"></div>
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-white/10">
-              <img
-                src="https://images.pexels.com/photos/7551659/pexels-photo-7551659.jpeg?auto=compress&cs=tinysrgb&w=800"
-                alt="Casal sênior feliz"
-                className="w-full h-[600px] object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0A2540]/80 via-transparent to-transparent"></div>
-              <div className="absolute bottom-8 left-8 right-8 text-white">
-                <p className="text-lg font-medium">Excelência em cuidados sênior</p>
-                <p className="text-white/70">Tecnologia de ponta e acolhimento humano</p>
-              </div>
+          {/* VÍDEO VERTICAL WISTIA ( zgv7e2kaly ) - MANTIDO! */}
+          <div className="relative flex justify-center mt-12 lg:mt-0">
+            <div className="absolute -inset-10 bg-[#D4AF37]/10 blur-[100px] rounded-full"></div>
+            <div className="relative rounded-[40px] overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)] border-[10px] border-[#1a1a1a] bg-black w-full max-w-[360px] aspect-[9/16]">
+              <iframe 
+                src="https://fast.wistia.net/embed/iframe/zgv7e2kaly?videoFoam=true" 
+                title="Wistia Video" 
+                allow="autoplay; fullscreen" 
+                className="w-full h-full"
+              ></iframe>
             </div>
           </div>
         </div>
       </div>
-
-      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-white to-transparent"></div>
     </section>
   );
 }

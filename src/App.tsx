@@ -1,55 +1,63 @@
-import { useState } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { BrowserRouter, Routes, Route, useParams } from 'react-router-dom';
 
 // Seus Componentes
+import { Header } from './components/Header'; 
 import { Hero } from './components/Hero';
 import { Differentials } from './components/Differentials';
 import { Network } from './components/Network';
 import { Pricing } from './components/Pricing';
 import { Footer } from './components/Footer';
-import { LeadForm } from './components/LeadForm';
+import { LeadModal } from './components/LeadModal'; 
 import { Admin } from './pages/Admin';
 
-// Seu Hook de Rastreio
-import { useReferralTracking } from './hooks/useReferralTracking';
-
-// Componente para a Home (Organiza tudo o que não é Admin)
-function HomePage() {
+// COMPONENTE DA PÁGINA INICIAL (Agora encapsulado para o Router)
+function HomePageContent() {
+  const { id } = useParams(); 
   const [isFormOpen, setIsFormOpen] = useState(false);
-  const { refId } = useReferralTracking();
+
+  useEffect(() => {
+    if (id) {
+      window.localStorage.setItem('referral_id', id);
+    }
+  }, [id]);
+
+  const finalRefId = id || window.localStorage.getItem('referral_id') || 'DIRETO';
 
   return (
     <div className="min-h-screen bg-white">
+      <Header onCTAClick={() => setIsFormOpen(true)} />
       <Hero onCTAClick={() => setIsFormOpen(true)} />
       <Differentials />
       <Network />
       <Pricing onCTAClick={() => setIsFormOpen(true)} />
       <Footer />
-      
-      <LeadForm 
+      <LeadModal 
         isOpen={isFormOpen} 
         onClose={() => setIsFormOpen(false)} 
-        refId={refId || null} 
+        refId={finalRefId} 
       />
     </div>
   );
 }
 
-function App() {
+// O COMPONENTE PRINCIPAL (Onde o Router "manda")
+export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Rota Principal (Home) */}
-        <Route path="/" element={<HomePage />} />
-        
-        {/* Rota do Painel (Admin) */}
+        {/* Rota do Admin */}
         <Route path="/admin" element={<Admin />} />
         
-        {/* Rota de "Escape" (Se digitar qualquer coisa errada, volta pra Home) */}
-        <Route path="*" element={<HomePage />} />
+        {/* Rota da Home (Sem ID) */}
+        <Route path="/" element={<HomePageContent />} />
+        
+        {/* Rota da Home (Com ID do Indicador - ex: /001) */}
+        <Route path="/:id" element={<HomePageContent />} />
+        
+        {/* Rota de Escape */}
+        <Route path="*" element={<HomePageContent />} />
       </Routes>
     </BrowserRouter>
   );
 }
-
-export default App;

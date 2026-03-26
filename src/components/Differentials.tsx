@@ -1,78 +1,69 @@
-import { User, MapPin, TrendingDown, Brain, Plane, HeartPulse } from 'lucide-react';
+import { Brain, Plane, HeartPulse, Building2, Stethoscope, ShieldCheck } from 'lucide-react';
 
 export function Differentials() {
-  const differentials = [
-    {
-      icon: User,
-      title: 'Portabilidade Segura',
-      description: 'Mude para a PREVENT SENIOR mantendo seus direitos. Analisamos sua portabilidade para garantir toda as suas coberturs atuais sem perda',
-    },
-    {
-      icon: MapPin,
-      title: 'Segurança Financeira',
-      description: 'Mensalidade sem surpresas após os 50 anos.Desfrute da única segurança financeira real: zero reajuste por idade.',
-    },
-    {
-      icon: TrendingDown,
-      title: 'Sem Coparticipação',
-      description: 'Use o quanto precisar, sem custos adicionais.Valor fixo mensal. Sem taxas por consultas ou exames e sem surpresas na fatura.',
-    },
+  const secondaryDifferentials = [
     {
       icon: Brain,
       title: 'Inteligência Artificial',
-      description: 'IAs exclusivas para diagnósticos precisos e confiáveis.',
+      description: 'IAs exclusivas que auxiliam médicos em diagnósticos precoces e tratamentos personalizados.',
     },
     {
       icon: Plane,
       title: 'Remoção Aérea',
-      description: 'Cobertura para remoção aérea em todo território nacional.',
+      description: 'Logística de ponta com suporte aéreo para transferência entre unidades em todo o Brasil.',
     },
     {
       icon: HeartPulse,
       title: 'Telemedicina 24h',
-      description: 'Atendimento médico online disponível todos os dias, a qualquer hora.',
+      description: 'Acesso imediato a médicos de plantão diretamente pelo celular, sem sair de casa.',
+    },
+    {
+      icon: Building2,
+      title: 'Rede Própria',
+      description: 'Hospitais e núcleos de medicina avançada exclusivos para beneficiários Prevent Senior.',
+    },
+    {
+      icon: Stethoscope,
+      title: 'Medicina Preventiva',
+      description: 'Programas focados em longevidade e acompanhamento constante da sua saúde.',
+    },
+    {
+      icon: ShieldCheck,
+      title: 'Sem Carência em Grupos',
+      description: 'Condições especiais para migração de grupos familiares e empresas.',
     },
   ];
 
   return (
-    <section className="py-24 bg-white relative overflow-hidden">
-      <div className="absolute top-0 right-0 w-96 h-96 bg-[#D4AF37]/5 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#0A2540]/5 rounded-full blur-3xl"></div>
-
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <section className="py-24 bg-gray-50/50 border-t border-gray-100">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-4xl sm:text-5xl font-bold text-[#0A2540] mb-4">
-            Diferenciais que{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] to-[#B8941F]">
-              transformam
-            </span>
+          <h2 className="text-3xl font-black text-[#0A2540] uppercase italic mb-4">
+            Tecnologia a serviço da <span className="text-[#D4AF37]">Longevidade</span>
           </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Tecnologia de ponta aliada ao cuidado humanizado para sua tranquilidade
-          </p>
+          <div className="w-20 h-1 bg-[#D4AF37] mx-auto rounded-full"></div>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {differentials.map((item, index) => {
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {secondaryDifferentials.map((item, index) => {
             const Icon = item.icon;
             return (
               <div
                 key={index}
-                className="group bg-white rounded-2xl p-8 border border-gray-100 hover:border-[#D4AF37]/30 hover:shadow-xl transition-all duration-300 relative overflow-hidden"
+                className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 group"
               >
-                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#D4AF37]/10 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-
-                <div className="relative z-10">
-                  <div className="w-14 h-14 bg-gradient-to-br from-[#0A2540] to-[#0D3A5F] rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                    <Icon className="w-7 h-7 text-[#D4AF37]" />
+                <div className="flex items-start gap-4">
+                  <div className="flex-shrink-0 w-12 h-12 bg-gray-50 rounded-2xl flex items-center justify-center group-hover:bg-[#0A2540] transition-colors">
+                    <Icon className="w-6 h-6 text-[#0A2540] group-hover:text-[#D4AF37]" />
                   </div>
-
-                  <h3 className="text-xl font-bold text-[#0A2540] mb-3 group-hover:text-[#D4AF37] transition-colors">
-                    {item.title}
-                  </h3>
-                  <p className="text-gray-600 leading-relaxed">
-                    {item.description}
-                  </p>
+                  <div>
+                    <h3 className="font-black text-[#0A2540] uppercase text-xs italic mb-2 tracking-wider">
+                      {item.title}
+                    </h3>
+                    <p className="text-sm text-gray-500 leading-relaxed font-medium">
+                      {item.description}
+                    </p>
+                  </div>
                 </div>
               </div>
             );
