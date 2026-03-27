@@ -1,35 +1,14 @@
+import { Star, Award, HeartHandshake } from 'lucide-react';
+
 export function Network() {
-  const units = [
-    {
-      name: 'Malibu',
-      inspiration: 'Havaí',
-      image: 'https://images.pexels.com/photos/269077/pexels-photo-269077.jpeg?auto=compress&cs=tinysrgb&w=800',
-      color: 'from-blue-500 to-cyan-400',
-    },
-    {
-      name: 'Dubai',
-      inspiration: 'Emirados Árabes',
-      image: 'https://images.pexels.com/photos/668300/pexels-photo-668300.jpeg?auto=compress&cs=tinysrgb&w=800',
-      color: 'from-amber-500 to-orange-400',
-    },
-    {
-      name: 'Rússia',
-      inspiration: 'Moscou',
-      image: 'https://images.pexels.com/photos/1329711/pexels-photo-1329711.jpeg?auto=compress&cs=tinysrgb&w=800',
-      color: 'from-red-500 to-pink-400',
-    },
-    {
-      name: 'Cascais',
-      inspiration: 'Portugal',
-      image: 'https://images.pexels.com/photos/1579253/pexels-photo-1579253.jpeg?auto=compress&cs=tinysrgb&w=800',
-      color: 'from-green-500 to-emerald-400',
-    },
-    {
-      name: 'Istambul',
-      inspiration: 'Turquia',
-      image: 'https://images.pexels.com/photos/208701/pexels-photo-208701.jpeg?auto=compress&cs=tinysrgb&w=800',
-      color: 'from-purple-500 to-violet-400',
-    },
+  // Lista manual das fotos com os nomes dos arquivos e legendas que você definiu
+  const myPhotos = [
+    { src: 'foto02.png', label: 'Centro Médico Havaí' },
+    { src: 'foto03.png', label: 'Cuidado Especializado' },
+    { src: 'foto13.png', label: 'Enfermaria Acolhedora' },
+    { src: 'foto10.png', label: 'Quartos Premium' },
+    { src: 'foto14.png', label: 'Tecnologia & Saúde' },
+    { src: 'foto12.png', label: 'Tranquilidade' },
   ];
 
   return (
@@ -37,6 +16,46 @@ export function Network() {
       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0zNiAxOGMzLjMxNCAwIDYgMi42ODYgNiA2cy0yLjY4NiA2LTYgNi02LTIuNjg2LTYtNiAyLjY4Ni02IDYtNnoiIHN0cm9rZT0iIzBBMjU0MCIgc3Ryb2tlLXdpZHRoPSIuNSIgb3BhY2l0eT0iLjA1Ii8+PC9nPjwvc3ZnPg==')] opacity-40"></div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        {/* --- 1. BLOCO "NOSSO JEITO DE CUIDAR" (ID para âncora 'Sobre Nós') --- */}
+        <div id="network-top" className="bg-white rounded-3xl p-10 shadow-2xl border border-gray-100 mb-20">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="relative rounded-2xl overflow-hidden shadow-lg aspect-[4/3]">
+              <img
+                src="ric_corretor.jpg"
+                alt="Ricardo Chaves - Corretor Especialista"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0A2540]/60 to-transparent"></div>
+            </div>
+            <div>
+              <h3 className="text-4xl sm:text-5xl font-extrabold mb-6 tracking-tight text-[#0A2540]">
+                Nosso Jeito de Cuidar
+              </h3>
+              <p className="text-lg text-gray-700 leading-relaxed mb-8">
+                Nós acreditamos que a saúde vai muito além de uma carteirinha. Nossa missão é oferecer a excelência da Prevent Senior com um olhar humano e carinhoso. Entendemos que cada história é única e, por isso, priorizamos o atendimento personalizado para que você se sinta seguro em todas as etapas.
+              </p>
+              <div className="grid sm:grid-cols-2 gap-6">
+                <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-xl border border-gray-100">
+                  <Award className="w-8 h-8 text-[#D4AF37] flex-shrink-0 mt-1" />
+                  <div>
+                    <span className="font-semibold text-[#0A2540] block mb-1">30 Anos de Expertise</span>
+                    <span className="text-sm text-gray-600">Três décadas de experiência no mercado de saúde suplementar.</span>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-xl border border-gray-100">
+                  <HeartHandshake className="w-8 h-8 text-[#D4AF37] flex-shrink-0 mt-1" />
+                  <div>
+                    <span className="font-semibold text-[#0A2540] block mb-1">Atendimento Presencial</span>
+                    <span className="text-sm text-gray-600">Valorizamos o olho no olho e a conversa clara e acolhedora.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* --- 2. TÍTULO DA SEÇÃO --- */}
         <div className="text-center mb-16">
           <h2 className="text-4xl sm:text-5xl font-bold text-[#0A2540] mb-4">
             Nossa{' '}
@@ -45,84 +64,39 @@ export function Network() {
             </span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Unidades Temáticas inspiradas nos destinos mais sofisticados do mundo, proporcionando uma experiência única de cuidado e bem-estar
+            Por que somos o diferencial que você merece?
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-          {units.map((unit, index) => (
+        {/* --- 3. GRID DE FOTOS REAIS (ID para âncora 'Atendimento Diferenciado') --- */}
+        <div id="network-grid" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {myPhotos.map((photo, index) => (
             <div
               key={index}
-              className="group relative rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2"
+              className="group relative rounded-[40px] overflow-hidden shadow-lg aspect-[4/3] bg-gray-100 border border-gray-200"
             >
-              <div className="aspect-[4/3] overflow-hidden">
-                <img
-                  src={unit.image}
-                  alt={unit.name}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                />
-              </div>
+              <img 
+                src={photo.src} 
+                alt={photo.label}
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              />
+              
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80"></div>
 
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0A2540] via-[#0A2540]/50 to-transparent opacity-80"></div>
-
-              <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                <div className={`inline-block px-3 py-1 rounded-full bg-gradient-to-r ${unit.color} text-white text-sm font-medium mb-2`}>
-                  Inspirado em {unit.inspiration}
+              {/* LEGENDA NOBRE (AMARELO DOURADO) */}
+              <div className="absolute bottom-6 left-0 right-0 px-6">
+                <div className="bg-[#D4AF37] text-[#0A2540] py-3 px-6 rounded-2xl font-black text-center uppercase italic shadow-lg transform group-hover:-translate-y-2 transition-transform text-xs sm:text-sm tracking-tighter">
+                  {photo.label}
                 </div>
-                <h3 className="text-2xl font-bold mb-1">{unit.name}</h3>
-                <p className="text-white/80 text-sm">Unidade Temática Premium</p>
               </div>
 
-              <div className="absolute top-4 right-4 w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <span className="text-[#D4AF37] text-2xl">✦</span>
+              <div className="absolute top-4 right-4 w-10 h-10 bg-[#D4AF37]/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                <Star className="w-5 h-5 text-[#D4AF37] fill-[#D4AF37]" />
               </div>
             </div>
           ))}
-
-          <div className="md:col-span-2 lg:col-span-1 bg-gradient-to-br from-[#0A2540] to-[#0D3A5F] rounded-3xl p-8 flex flex-col justify-center items-center text-center text-white">
-            <div className="w-20 h-20 bg-[#D4AF37]/20 rounded-full flex items-center justify-center mb-6">
-              <span className="text-5xl text-[#D4AF37]">+</span>
-            </div>
-            <h3 className="text-2xl font-bold mb-3">Experiência Única</h3>
-            <p className="text-white/80 leading-relaxed">
-              Cada unidade oferece ambientes tematizados que proporcionam conforto, sofisticação e um atendimento de classe mundial.
-            </p>
-          </div>
         </div>
 
-        <div className="bg-white rounded-3xl p-8 shadow-lg border border-gray-100">
-          <div className="grid md:grid-cols-2 gap-8 items-center">
-            <div className="relative rounded-2xl overflow-hidden">
-              <img
-                src="https://images.pexels.com/photos/7659564/pexels-photo-7659564.jpeg?auto=compress&cs=tinysrgb&w=800"
-                alt="Equipe médica"
-                className="w-full h-80 object-cover"
-              />
-            </div>
-            <div>
-              <h3 className="text-3xl font-bold text-[#0A2540] mb-4">
-                Nosso Jeito de Cuidar
-              </h3>
-              <p className="text-gray-600 leading-relaxed mb-6">
-                Na Prevent Plus, acreditamos que a saúde vai muito além de uma carteirinha. Nossa missão é oferecer a excelência da Prevent Senior com um olhar humano e carinhoso. Entendemos que cada história é única e, por isso, priorizamos o atendimento personalizado para que você se sinta seguro em todas as etapas.
-              </p>
-              <div className="space-y-3">
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-[#D4AF37] rounded-full"></div>
-                  <span className="text-gray-700">30 Anos de Expertise: Três décadas de experiência no mercado de saúde suplementar.</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-[#D4AF37] rounded-full"></div>
-                  <span className="text-gray-700">Atendimento Presencial: Valorizamos o olho no olho e a conversa clara.</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-[#D4AF37] rounded-full"></div>
-                  <span className="text-gray-700">Olhar Humano: Consultoria feita por pessoas, para pessoas, com foco no seu bem-estar.</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   );

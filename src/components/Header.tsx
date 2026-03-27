@@ -27,7 +27,7 @@ export function Header({ onCTAClick }: { onCTAClick: () => void }) {
           onClick={onCTAClick}
           className="bg-[#D4AF37] text-[#0A2540] px-10 py-4 rounded-2xl font-black uppercase text-[11px] tracking-[2px] hover:bg-white hover:scale-105 transition-all flex items-center gap-3 shadow-lg shadow-[#D4AF37]/10 active:scale-95"
         >
-          <Send className="w-4 h-4" /> Solicitar Cotação
+          <Send className="w-4 h-4" /> Fale com um consultor
         </button>
       </div>
     </header>

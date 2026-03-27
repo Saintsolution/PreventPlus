@@ -26,8 +26,8 @@ export function Hero({ onCTAClick }: HeroProps) {
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent"></div>
           
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-black uppercase italic tracking-tighter leading-tight">
-            <span className="text-white">Diferença</span><br className="md:hidden" />
-            <span className="text-[#D4AF37]"> que Transforma</span>
+            <span className="text-white">AVALIAMOS SUA</span><br className="md:hidden" />
+            <span className="text-[#D4AF37]"> PORTABILIDADE</span>
           </h2>
         </div>
 
@@ -73,7 +73,7 @@ export function Hero({ onCTAClick }: HeroProps) {
                   transition-all duration-300 transform hover:scale-105 active:scale-95
                 "
               >
-                Solicitar Cotação
+                Fale com um consultor
                 <MessageCircle className="w-5 h-5 text-[#D4AF37] group-hover:text-[#0A2540]" />
               </button>
             </div>
@@ -81,9 +81,11 @@ export function Hero({ onCTAClick }: HeroProps) {
 
           </div>
 
-          {/* VÍDEO VERTICAL WISTIA ( zgv7e2kaly ) - MANTIDO! */}
-          <div className="relative flex justify-center mt-12 lg:mt-0">
+          {/* VÍDEO VERTICAL WISTIA COM LEGENDA DISCRETA */}
+          <div className="relative flex flex-col items-center mt-12 lg:mt-0">
             <div className="absolute -inset-10 bg-[#D4AF37]/10 blur-[100px] rounded-full"></div>
+            
+            {/* Moldura do Vídeo */}
             <div className="relative rounded-[40px] overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)] border-[10px] border-[#1a1a1a] bg-black w-full max-w-[360px] aspect-[9/16]">
               <iframe 
                 src="https://fast.wistia.net/embed/iframe/zgv7e2kaly?videoFoam=true" 
@@ -91,6 +93,12 @@ export function Hero({ onCTAClick }: HeroProps) {
                 allow="autoplay; fullscreen" 
                 className="w-full h-full"
               ></iframe>
+            </div>
+
+            {/* LEGENDA REFORMULADA: Estilo Consultoria Premium */}
+            <div className="mt-6 inline-flex items-center gap-2 bg-white/5 px-6 py-3 rounded-full border border-white/10">
+              <Shield className="w-4 h-4 text-[#D4AF37]" />
+              <span className="text-sm font-black text-white uppercase italic">Sua saúde é nossa prioridade</span>
             </div>
           </div>
         </div>
