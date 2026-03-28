@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Heart, Phone, Mail, Lock, X, Send } from 'lucide-react';
+import { Heart, Phone, Mail, Lock, X, Send, ExternalLink } from 'lucide-react';
 
-// Adicionamos a prop onCTAClick para abrir o modal
 export function Footer({ onCTAClick }: { onCTAClick: () => void }) {
   const [isMailModalOpen, setIsMailModalOpen] = useState(false);
 
@@ -39,8 +38,24 @@ export function Footer({ onCTAClick }: { onCTAClick: () => void }) {
           <div>
             <h4 className="text-lg font-bold mb-6 text-[#D4AF37] border-b border-[#D4AF37]/20 pb-2">Navegação</h4>
             <ul className="space-y-3">
-              <li><a href="#" onClick={handleScrollTo('planos')} className="text-white/70 hover:text-[#D4AF37] transition-colors flex items-center gap-2"><span className="w-1.5 h-1.5 bg-[#D4AF37] rounded-full"></span> Planos Disponíveis</a></li>
-              <li><a href="#" onClick={handleScrollTo('network-grid')} className="text-white/70 hover:text-[#D4AF37] transition-colors flex items-center gap-2"><span className="w-1.5 h-1.5 bg-[#D4AF37] rounded-full"></span> Rede Credenciada</a></li>
+              <li>
+                <a href="#" onClick={handleScrollTo('planos')} className="text-white/70 hover:text-[#D4AF37] transition-colors flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 bg-[#D4AF37] rounded-full"></span> Planos Disponíveis
+                </a>
+              </li>
+              <li>
+                {/* ATUALIZADO: Link direto para a Rede Credenciada oficial */}
+                <a 
+                  href="https://www.preventsenior.com.br/rede-de-atendimento?tab=medicos" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="text-white/70 hover:text-[#D4AF37] transition-colors flex items-center gap-2 group"
+                >
+                  <span className="w-1.5 h-1.5 bg-[#D4AF37] rounded-full"></span> 
+                  Rede Credenciada
+                  <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                </a>
+              </li>
             </ul>
           </div>
 
@@ -53,12 +68,11 @@ export function Footer({ onCTAClick }: { onCTAClick: () => void }) {
             </ul>
           </div>
 
-          {/* Coluna 4: Contato (AGORA ABRE O MODAL) */}
+          {/* Coluna 4: Contato */}
           <div>
             <h4 className="text-lg font-bold mb-6 text-[#D4AF37] border-b border-[#D4AF37]/20 pb-2">Fale Conosco</h4>
             <ul className="space-y-4">
               <li>
-                {/* MUDANÇA AQUI: de <a> para <button> chamando o modal */}
                 <button onClick={onCTAClick} className="group flex items-start gap-3 text-left">
                   <Phone className="w-5 h-5 text-[#D4AF37] mt-1 group-hover:scale-110 transition-transform" />
                   <div>
@@ -86,7 +100,7 @@ export function Footer({ onCTAClick }: { onCTAClick: () => void }) {
         </div>
       </div>
 
-      {/* --- MODAL DE E-MAIL (MAILTO DIRETO) --- */}
+      {/* --- MODAL DE E-MAIL --- */}
       {isMailModalOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
           <div className="bg-white rounded-[32px] w-full max-w-lg overflow-hidden shadow-2xl">
