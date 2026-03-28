@@ -24,7 +24,7 @@ export function LeadModal({ isOpen, onClose, refId }: LeadModalProps) {
       `Gostaria de uma consultoria Prevent Senior. (Ref: ${refId || 'DIRETO'})`;
 
     // Lembre-se de colocar o número real do Ricardo aqui no lugar dos 999
-    window.open(`https://wa.me/5521999999999?text=${encodeURIComponent(mensagem)}`, '_blank');
+    window.open(`https://wa.me/5521964791774?text=${encodeURIComponent(mensagem)}`, '_blank');
     onClose();
   };
 

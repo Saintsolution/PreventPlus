@@ -36,7 +36,10 @@ function HomePageContent() {
         <Differentials />
       </div>
       <Pricing onCTAClick={() => setIsFormOpen(true)} />
-      <Footer />
+      
+      {/* CORREÇÃO AQUI: Passando a função para o Footer abrir o modal */}
+      <Footer onCTAClick={() => setIsFormOpen(true)} />
+      
       <LeadModal 
         isOpen={isFormOpen} 
         onClose={() => setIsFormOpen(false)} 

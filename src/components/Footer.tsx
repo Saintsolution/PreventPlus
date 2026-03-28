@@ -1,20 +1,13 @@
 import React, { useState } from 'react';
-import { Heart, Phone, Mail, MapPin, Lock, X } from 'lucide-react';
+import { Heart, Phone, Mail, Lock, X, Send } from 'lucide-react';
 
-export function Footer() {
+// Adicionamos a prop onCTAClick para abrir o modal
+export function Footer({ onCTAClick }: { onCTAClick: () => void }) {
   const [isMailModalOpen, setIsMailModalOpen] = useState(false);
 
-  // PEGA O CÓDIGO DINÂMICO QUE O APP.TSX SALVOU (Ex: 001, 002)
   const currentRef = typeof window !== 'undefined' 
     ? (window.localStorage.getItem('referral_id') || 'SITE-DIRETO') 
     : 'SITE-DIRETO';
-
-  // LINK DO WHATSAPP ATUALIZADO COM O INDICADOR DINÂMICO
-  const whatsappUrl = `https://wa.me/5521964791774?text=${encodeURIComponent(
-    `*CONTATO VIA SITE PREVENTPLUS*\n\n` +
-    `*Indicador:* ${currentRef}\n` +
-    `Olá, Ricardo! Gostaria de uma consultoria sobre os planos Prevent Ma+s.`
-  )}`;
 
   const handleScrollTo = (id: string) => (e: React.MouseEvent) => {
     e.preventDefault();
@@ -60,27 +53,28 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Coluna 4: Contato (LINK DINÂMICO) */}
+          {/* Coluna 4: Contato (AGORA ABRE O MODAL) */}
           <div>
             <h4 className="text-lg font-bold mb-6 text-[#D4AF37] border-b border-[#D4AF37]/20 pb-2">Fale Conosco</h4>
             <ul className="space-y-4">
               <li>
-                <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="group flex items-start gap-3">
+                {/* MUDANÇA AQUI: de <a> para <button> chamando o modal */}
+                <button onClick={onCTAClick} className="group flex items-start gap-3 text-left">
                   <Phone className="w-5 h-5 text-[#D4AF37] mt-1 group-hover:scale-110 transition-transform" />
                   <div>
                     <div className="text-white/90 font-bold">(21) 96479-1774</div>
-                    <div className="text-[#D4AF37] text-[10px] font-black uppercase tracking-widest">Chamar no WhatsApp</div>
+                    <div className="text-[#D4AF37] text-[10px] font-black uppercase tracking-widest">Fale com um consultor</div>
                   </div>
-                </a>
+                </button>
               </li>
-              <li className="group cursor-pointer" onClick={() => setIsMailModalOpen(true)}>
-                <div className="flex items-start gap-3">
+              <li>
+                <button onClick={() => setIsMailModalOpen(true)} className="group flex items-start gap-3 text-left">
                   <Mail className="w-5 h-5 text-[#D4AF37] mt-1 group-hover:scale-110 transition-transform" />
                   <div>
-                    <div className="text-white/90 font-bold text-xs">emaildoricardochaves@gmail.com</div>
-                    <div className="text-white/50 text-[10px] uppercase">Enviar E-mail</div>
+                    <div className="text-white/90 font-bold text-xs break-all italic">emaildoricardochaves@gmail.com</div>
+                    <div className="text-white/50 text-[10px] uppercase">Solicitar via e-mail</div>
                   </div>
-                </div>
+                </button>
               </li>
             </ul>
           </div>
@@ -92,47 +86,54 @@ export function Footer() {
         </div>
       </div>
 
-      {/* --- MODAL DE E-MAIL --- */}
+      {/* --- MODAL DE E-MAIL (MAILTO DIRETO) --- */}
       {isMailModalOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
           <div className="bg-white rounded-[32px] w-full max-w-lg overflow-hidden shadow-2xl">
             <div className="bg-[#0A2540] p-6 flex justify-between items-center text-[#D4AF37]">
               <div className="flex items-center gap-2">
                 <Mail />
-                <h3 className="text-lg font-bold text-white uppercase">Dados para Atendimento</h3>
+                <h3 className="text-lg font-bold text-white uppercase text-sm">Consultoria por E-mail</h3>
               </div>
               <button onClick={() => setIsMailModalOpen(false)} className="text-white/50 hover:text-white"><X /></button>
             </div>
             
-            <form className="p-8 space-y-4 text-left">
+            <form 
+              className="p-8 space-y-4 text-left"
+              onSubmit={(e) => {
+                e.preventDefault();
+                const data = new FormData(e.currentTarget);
+                const nome = data.get('nome')?.toString().toUpperCase();
+                const idade = data.get('idade');
+                const bairro = data.get('bairro')?.toString().toUpperCase();
+                const duvida = data.get('duvida');
+                
+                const subject = encodeURIComponent(`SOLICITAÇÃO DE PLANO - ${nome}`);
+                const body = encodeURIComponent(
+                  `NOME: ${nome}\nIDADE: ${idade}\nBAIRRO: ${bairro}\nINDICADOR: ${currentRef}\n\nDÚVIDA: ${duvida}`
+                );
+                
+                window.location.href = `mailto:emaildoricardochaves@gmail.com?subject=${subject}&body=${body}`;
+                setIsMailModalOpen(false);
+              }}
+            >
               <div className="grid grid-cols-2 gap-4">
                 <div className="col-span-2">
                   <label className="text-[10px] font-black text-[#0A2540] uppercase">Nome</label>
-                  <input type="text" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-black outline-none" placeholder="Nome completo" />
+                  <input name="nome" required type="text" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-black outline-none" />
                 </div>
-                <div>
-                  <label className="text-[10px] font-black text-[#0A2540] uppercase">Idade</label>
-                  <input type="number" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-black outline-none" placeholder="65" />
+                <div><label className="text-[10px] font-black text-[#0A2540] uppercase">Idade</label>
+                  <input name="idade" required type="number" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-black outline-none" />
                 </div>
-                <div>
-                  <label className="text-[10px] font-black text-[#0A2540] uppercase">Bairro</label>
-                  <input type="text" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-black outline-none" placeholder="Ex: Tijuca" />
+                <div><label className="text-[10px] font-black text-[#0A2540] uppercase">Bairro</label>
+                  <input name="bairro" required type="text" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-black outline-none" />
+                </div>
+                <div className="col-span-2">
+                  <label className="text-[10px] font-black text-[#0A2540] uppercase">Mensagem</label>
+                  <textarea name="duvida" rows={3} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-black outline-none resize-none"></textarea>
                 </div>
               </div>
-
-              <div className="pt-4 space-y-4">
-                <a 
-                  href={whatsappUrl} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="w-full bg-[#D4AF37] hover:bg-[#B8941F] text-[#0A2540] font-black py-4 rounded-xl shadow-lg flex items-center justify-center gap-2 transition-all active:scale-95 uppercase text-sm"
-                >
-                  <Phone className="w-5 h-5" /> FALAR COM O RICARDO AGORA
-                </a>
-                <p className="text-[9px] text-gray-400 uppercase tracking-widest font-bold text-center">
-                  Ref Indicador: <span className="text-[#0A2540]">{currentRef}</span>
-                </p>
-              </div>
+              <button type="submit" className="w-full bg-[#D4AF37] text-[#0A2540] font-black py-4 rounded-xl uppercase text-sm">Enviar E-mail</button>
             </form>
           </div>
         </div>
