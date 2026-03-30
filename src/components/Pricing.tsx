@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Check, Sparkles, MessageCircle, Loader2 } from 'lucide-react';
 
+// Interface para o App.tsx não dar erro
 interface PricingProps {
   onCTAClick: () => void;
 }
@@ -10,7 +11,6 @@ export function Pricing({ onCTAClick }: PricingProps) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // URL do seu Webhook de Produção/Teste
     const webhookUrl = "https://n8n.saintsolution.com.br/webhook/a57e4858-d4d7-4071-8a94-2b1589d618c7";
 
     fetch(webhookUrl)
@@ -51,13 +51,11 @@ export function Pricing({ onCTAClick }: PricingProps) {
     'Telemedicina 24h',
     'Remoção aérea nacional',
     'Insenção de carência através de Portabilidade',
-    
   ];
 
-  // Função que dispara o WhatsApp direto do card de preço
   const handlePlanSelection = (plano: string, faixa: string) => {
     const refId = localStorage.getItem('referral_id') || 'DIRETO';
-    const phoneNumber = "5521964791774"; // NÚMERO DO RICARDO ATUALIZADO
+    const phoneNumber = "5521964791774"; 
     
     const mensagem = encodeURIComponent(
       `*INTERESSE EM PLANO - PREVENT PLUS*\n\n` +
@@ -71,7 +69,6 @@ export function Pricing({ onCTAClick }: PricingProps) {
   };
 
   return (
-    /* ADICIONADO O ID "planos" ABAIXO PARA O FOOTER FUNCIONAR */
     <section id="planos" className="py-24 bg-gray-50 relative overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
@@ -95,7 +92,6 @@ export function Pricing({ onCTAClick }: PricingProps) {
               </div>
             ) : (
               <>
-                {/* --- VERSÃO MOBILE --- */}
                 <div className="block md:hidden p-6 space-y-6">
                   {plans.map((plan, index) => (
                     <div key={index} className={`p-6 rounded-[32px] border-2 ${plan.highlight ? 'border-[#D4AF37] bg-[#D4AF37]/5' : 'border-gray-50'}`}>
@@ -120,7 +116,6 @@ export function Pricing({ onCTAClick }: PricingProps) {
                   ))}
                 </div>
 
-                {/* --- VERSÃO DESKTOP --- */}
                 <div className="hidden md:block">
                   <table className="w-full">
                     <thead>
@@ -154,7 +149,6 @@ export function Pricing({ onCTAClick }: PricingProps) {
                   </table>
                 </div>
 
-                {/* BENEFÍCIOS RODAPÉ */}
                 <div className="bg-[#0A2540]/5 p-12 grid grid-cols-2 md:grid-cols-3 gap-8 mt-auto">
                   {benefits.map((benefit, index) => (
                     <div key={index} className="flex items-center gap-4">

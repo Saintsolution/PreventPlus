@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useParams } from 'react-router-dom';
 
-// Seus Componentes
+// Importações com CHAVES {} porque seus arquivos usam "export function"
 import { Header } from './components/Header'; 
 import { Hero } from './components/Hero';
 import { Network } from './components/Network';
@@ -11,42 +11,45 @@ import { Footer } from './components/Footer';
 import { LeadModal } from './components/LeadModal'; 
 import { Admin } from './pages/Admin';
 
-// COMPONENTE DA PÁGINA INICIAL
 function HomePageContent() {
   const { id } = useParams(); 
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [isEmailMode, setIsEmailMode] = useState(false);
 
   useEffect(() => {
-    // Se vier algo na URL (ex: /002), a gente salva
     if (id) {
       window.localStorage.setItem('referral_id', id);
-      console.log("Indicador capturado pela URL:", id);
     }
   }, [id]);
 
-  // Define qual ID usar: o da URL agora, o que estava salvo, ou 'DIRETO'
+  const handleOpenCadastro = () => {
+    setIsEmailMode(true);
+    setIsFormOpen(true);
+  };
+
+  const handleOpenWhatsApp = () => {
+    setIsEmailMode(false);
+    setIsFormOpen(true);
+  };
+
   const finalRefId = id || window.localStorage.getItem('referral_id') || 'DIRETO';
 
   return (
     <div className="min-h-screen bg-white">
-      <Header onCTAClick={() => setIsFormOpen(true)} />
-      <Hero onCTAClick={() => setIsFormOpen(true)} />
+      <Header onCTAClick={handleOpenCadastro} />
+      <Hero onCTAClick={handleOpenWhatsApp} />
       <Network />
-      
-      {/* AJUSTE AQUI: Adicionado o onCTAClick para o botão do vídeo funcionar */}
       <div id="unidade-havai">
-        <Differentials onCTAClick={() => setIsFormOpen(true)} />
+        <Differentials onCTAClick={handleOpenWhatsApp} />
       </div>
-
-      <Pricing onCTAClick={() => setIsFormOpen(true)} />
-      
-      {/* Footer já está correto */}
-      <Footer onCTAClick={() => setIsFormOpen(true)} />
+      <Pricing onCTAClick={handleOpenWhatsApp} />
+      <Footer onCTAClick={handleOpenWhatsApp} />
       
       <LeadModal 
         isOpen={isFormOpen} 
         onClose={() => setIsFormOpen(false)} 
-        refId={finalRefId} 
+        refId={finalRefId}
+        isEmailMode={isEmailMode} 
       />
     </div>
   );
@@ -56,16 +59,9 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Rota do Admin */}
         <Route path="/admin" element={<Admin />} />
-        
-        {/* Rota da Home (Pura) */}
         <Route path="/" element={<HomePageContent />} />
-        
-        {/* Rota da Home com ID (Ex: preventplus.com.br/002) */}
         <Route path="/:id" element={<HomePageContent />} />
-        
-        {/* Rota de Escape para não dar erro 404 */}
         <Route path="*" element={<HomePageContent />} />
       </Routes>
     </BrowserRouter>

@@ -1,16 +1,15 @@
-import { ShieldCheck, Cpu, Heart, Send } from 'lucide-react';
+import { Send } from 'lucide-react';
 
-// Adicionamos a prop onCTAClick aqui na entrada do componente
 export function Differentials({ onCTAClick }: { onCTAClick: () => void }) {
   return (
-    /* Adicionado o ID unidade-havai para a âncora do Footer */
     <section id="unidade-havai" className="py-24 bg-white border-t border-gray-100 overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           
-          {/* LADO ESQUERDO: VÍDEO WISTIA VERTICAL (PORTRAIT) */}
+          {/* LADO ESQUERDO: VÍDEO WISTIA VERTICAL */}
           <div className="relative flex justify-center">
+            {/* Efeito de brilho ao fundo */}
             <div className="absolute -inset-10 bg-gradient-to-b from-[#D4AF37]/10 to-transparent rounded-full blur-3xl opacity-50"></div>
             
             <div className="relative w-full max-w-[320px] rounded-[40px] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.3)] border-[6px] border-[#0A2540] aspect-[9/16] bg-[#0A2540]">
@@ -23,16 +22,7 @@ export function Differentials({ onCTAClick }: { onCTAClick: () => void }) {
               ></iframe>
             </div>
 
-            <div className="absolute -right-4 top-1/4 hidden lg:flex flex-col gap-3">
-               <div className="bg-white p-3 rounded-2xl shadow-lg border border-gray-100 flex items-center gap-2">
-                  <Cpu className="w-5 h-5 text-[#D4AF37]" />
-                  <span className="text-[10px] font-bold text-[#0A2540] uppercase tracking-tighter">Alta Tecnologia</span>
-               </div>
-               <div className="bg-white p-3 rounded-2xl shadow-lg border border-gray-100 flex items-center gap-2 ml-4">
-                  <Heart className="w-5 h-5 text-[#D4AF37]" />
-                  <span className="text-[10px] font-bold text-[#0A2540] uppercase tracking-tighter">Humanizado</span>
-               </div>
-            </div>
+            {/* As caixinhas "Alta Tecnologia" e "Humanizado" foram removidas daqui para limpar o visual */}
           </div>
 
           {/* LADO DIREITO: TEXTO VENDÁVEL */}
@@ -63,7 +53,6 @@ export function Differentials({ onCTAClick }: { onCTAClick: () => void }) {
               </p>
 
               <div className="pt-6">
-                {/* BOTÃO CORRIGIDO: Agora chama onCTAClick e mudou o texto */}
                 <button 
                   onClick={onCTAClick}
                   className="w-full lg:w-auto bg-[#D4AF37] hover:bg-[#B8941F] text-[#0A2540] font-black py-4 px-12 rounded-2xl shadow-lg shadow-[#D4AF37]/30 transition-all transform hover:-translate-y-1 active:scale-95 text-center uppercase tracking-widest text-sm flex items-center justify-center gap-3 mx-auto lg:mx-0"

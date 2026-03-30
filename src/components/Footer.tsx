@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
-import { Heart, Phone, Mail, Lock, X, Send, ExternalLink } from 'lucide-react';
+import { Heart, Phone, Mail, Lock, X, ExternalLink } from 'lucide-react';
 
-export function Footer({ onCTAClick }: { onCTAClick: () => void }) {
+// Isso aqui mata o erro no App.tsx
+interface FooterProps {
+  onCTAClick: () => void;
+}
+
+export function Footer({ onCTAClick }: FooterProps) {
   const [isMailModalOpen, setIsMailModalOpen] = useState(false);
 
   const currentRef = typeof window !== 'undefined' 
@@ -30,7 +35,7 @@ export function Footer({ onCTAClick }: { onCTAClick: () => void }) {
               <span className="text-2xl font-bold text-[#D4AF37]">Equipe PreventPlus</span>
             </div>
             <p className="text-white/70 leading-relaxed italic">
-              A segurança de quem conhece o mercado. Consultoria liderada por Ricardo Chaves, com 30 anos de experiênciq em Saúde Suplementar.
+              A segurança de quem conhece o mercado. Consultoria liderada por Ricardo Chaves, com 30 anos de experiência em Saúde Suplementar.
             </p>
           </div>
 
@@ -44,7 +49,6 @@ export function Footer({ onCTAClick }: { onCTAClick: () => void }) {
                 </a>
               </li>
               <li>
-                {/* ATUALIZADO: Link direto para a Rede Credenciada oficial */}
                 <a 
                   href="https://drive.google.com/file/d/1BiXKo7Im87oOLqw_dP5SLdadTTG7F_yO/view?usp=sharing" 
                   target="_blank" 
@@ -100,7 +104,7 @@ export function Footer({ onCTAClick }: { onCTAClick: () => void }) {
         </div>
       </div>
 
-      {/* --- MODAL DE E-MAIL --- */}
+      {/* --- MODAL DE E-MAIL (INTERNO) --- */}
       {isMailModalOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
           <div className="bg-white rounded-[32px] w-full max-w-lg overflow-hidden shadow-2xl">
@@ -123,28 +127,28 @@ export function Footer({ onCTAClick }: { onCTAClick: () => void }) {
                 const duvida = data.get('duvida');
                 
                 const subject = encodeURIComponent(`SOLICITAÇÃO DE PLANO - ${nome}`);
-                const body = encodeURIComponent(
-                  `NOME: ${nome}\nIDADE: ${idade}\nBAIRRO: ${bairro}\nINDICADOR: ${currentRef}\n\nDÚVIDA: ${duvida}`
-                );
+                const body = encodeURIComponent(`NOME: ${nome}\nIDADE: ${idade}\nBAIRRO: ${bairro}\nINDICADOR: ${currentRef}\n\nDÚVIDA: ${duvida}`);
                 
                 window.location.href = `mailto:emaildoricardochaves@gmail.com?subject=${subject}&body=${body}`;
                 setIsMailModalOpen(false);
               }}
             >
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-4 text-black">
                 <div className="col-span-2">
                   <label className="text-[10px] font-black text-[#0A2540] uppercase">Nome</label>
-                  <input name="nome" required type="text" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-black outline-none" />
+                  <input name="nome" required type="text" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 outline-none" />
                 </div>
-                <div><label className="text-[10px] font-black text-[#0A2540] uppercase">Idade</label>
-                  <input name="idade" required type="number" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-black outline-none" />
+                <div>
+                  <label className="text-[10px] font-black text-[#0A2540] uppercase">Idade</label>
+                  <input name="idade" required type="number" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 outline-none" />
                 </div>
-                <div><label className="text-[10px] font-black text-[#0A2540] uppercase">Bairro</label>
-                  <input name="bairro" required type="text" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-black outline-none" />
+                <div>
+                  <label className="text-[10px] font-black text-[#0A2540] uppercase">Bairro</label>
+                  <input name="bairro" required type="text" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 outline-none" />
                 </div>
                 <div className="col-span-2">
                   <label className="text-[10px] font-black text-[#0A2540] uppercase">Mensagem</label>
-                  <textarea name="duvida" rows={3} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-black outline-none resize-none"></textarea>
+                  <textarea name="duvida" rows={3} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 outline-none resize-none"></textarea>
                 </div>
               </div>
               <button type="submit" className="w-full bg-[#D4AF37] text-[#0A2540] font-black py-4 rounded-xl uppercase text-sm">Enviar E-mail</button>

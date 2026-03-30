@@ -1,11 +1,6 @@
 import { User, DollarSign, TrendingDown, Shield, MessageCircle } from 'lucide-react';
 
-// Interface para o App.tsx não dar erro
-interface HeroProps {
-  onCTAClick: () => void;
-}
-
-export function Hero({ onCTAClick }: HeroProps) {
+export function Hero({ onCTAClick }: { onCTAClick: () => void }) {
   const mainDifferentials = [
     { icon: User, title: 'Portabilidade Segura', description: 'Mude para a PREVENT SENIOR mantendo seus direitos. Analisamos sua carência sem perda de cobertura.' },
     { icon: DollarSign, title: 'Segurança Financeira', description: 'Mensalidade sem surpresas após os 50 anos. Zero reajuste por mudança de faixa etária.' },
@@ -20,11 +15,8 @@ export function Hero({ onCTAClick }: HeroProps) {
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
-        
-        {/* BANNER REFORMULADO: Azul Petróleo, bordas médias, letras Amarelas/Brancas */}
         <div className="mb-20 bg-[#0D3A5F] rounded-[32px] py-12 px-10 shadow-2xl border border-white/10 text-center relative overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent"></div>
-          
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-black uppercase italic tracking-tighter leading-tight">
             <span className="text-white">AVALIAMOS SUA</span><br className="md:hidden" />
             <span className="text-[#D4AF37]"> PORTABILIDADE</span>
@@ -39,53 +31,32 @@ export function Hero({ onCTAClick }: HeroProps) {
             </div>
 
             <div className="space-y-10">
-              {mainDifferentials.map((item, index) => {
-                const Icon = item.icon;
-                return (
-                  <div key={index} className="flex gap-6 group items-start">
-                    <div className="flex-shrink-0 w-16 h-16 bg-white/5 rounded-2xl flex items-center justify-center border border-white/10 group-hover:bg-[#D4AF37] transition-all">
-                      <Icon className="w-8 h-8 text-[#D4AF37] group-hover:text-[#0A2540]" />
-                    </div>
-                    <div className="pt-2">
-                      <h3 className="text-2xl font-black text-[#D4AF37] uppercase italic mb-2 tracking-tight">{item.title}</h3>
-                      <p className="text-white/80 leading-relaxed text-lg font-medium">{item.description}</p>
-                    </div>
+              {mainDifferentials.map((item, index) => (
+                <div key={index} className="flex gap-6 group items-start">
+                  <div className="flex-shrink-0 w-16 h-16 bg-white/5 rounded-2xl flex items-center justify-center border border-white/10 group-hover:bg-[#D4AF37] transition-all">
+                    <item.icon className="w-8 h-8 text-[#D4AF37] group-hover:text-[#0A2540]" />
                   </div>
-                );
-              })}
+                  <div className="pt-2">
+                    <h3 className="text-2xl font-black text-[#D4AF37] uppercase italic mb-2 tracking-tight">{item.title}</h3>
+                    <p className="text-white/80 leading-relaxed text-lg font-medium">{item.description}</p>
+                  </div>
+                </div>
+              ))}
             </div>
 
-            {/* --- NOVO BOTÃO: SOLICITAR COTAÇÃO (ALINHADO À ESQUERDA) --- */}
             <div className="pt-4 text-left">
               <button 
                 onClick={onCTAClick}
-                className="
-                  group
-                  inline-flex items-center gap-3 
-                  bg-[#0A2540] 
-                  border-2 border-[#D4AF37]/50 
-                  text-white 
-                  px-10 py-5 
-                  rounded-2xl 
-                  font-black uppercase tracking-[3px] text-sm italic
-                  shadow-2xl shadow-[#D4AF37]/10
-                  hover:bg-[#D4AF37] hover:text-[#0A2540] hover:border-[#D4AF37]
-                  transition-all duration-300 transform hover:scale-105 active:scale-95
-                "
+                className="group inline-flex items-center gap-3 bg-[#0A2540] border-2 border-[#D4AF37]/50 text-white px-10 py-5 rounded-2xl font-black uppercase tracking-[3px] text-sm italic shadow-2xl shadow-[#D4AF37]/10 hover:bg-[#D4AF37] hover:text-[#0A2540] transition-all duration-300 transform hover:scale-105 active:scale-95"
               >
-                Fale com um consultor
+                Solicitar Cadastro
                 <MessageCircle className="w-5 h-5 text-[#D4AF37] group-hover:text-[#0A2540]" />
               </button>
             </div>
-            {/* ------------------------------------------------------------ */}
-
           </div>
 
-          {/* VÍDEO VERTICAL WISTIA COM LEGENDA DISCRETA */}
           <div className="relative flex flex-col items-center mt-12 lg:mt-0">
             <div className="absolute -inset-10 bg-[#D4AF37]/10 blur-[100px] rounded-full"></div>
-            
-            {/* Moldura do Vídeo */}
             <div className="relative rounded-[40px] overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)] border-[10px] border-[#1a1a1a] bg-black w-full max-w-[360px] aspect-[9/16]">
               <iframe 
                 src="https://fast.wistia.net/embed/iframe/zgv7e2kaly?videoFoam=true" 
@@ -93,12 +64,6 @@ export function Hero({ onCTAClick }: HeroProps) {
                 allow="autoplay; fullscreen" 
                 className="w-full h-full"
               ></iframe>
-            </div>
-
-            {/* LEGENDA REFORMULADA: Estilo Consultoria Premium */}
-            <div className="mt-6 inline-flex items-center gap-2 bg-white/5 px-6 py-3 rounded-full border border-white/10">
-              <Shield className="w-4 h-4 text-[#D4AF37]" />
-              <span className="text-sm font-black text-white uppercase italic">Sua saúde é nossa prioridade</span>
             </div>
           </div>
         </div>
