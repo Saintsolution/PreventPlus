@@ -50,7 +50,8 @@ export function Pricing({ onCTAClick }: PricingProps) {
     'Cobertura em SP e RJ',
     'Telemedicina 24h',
     'Remoção aérea nacional',
-    'Clube de Vantagens Luxo',
+    'Insenção de carência através de Portabilidade',
+    
   ];
 
   // Função que dispara o WhatsApp direto do card de preço

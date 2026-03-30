@@ -27,10 +27,10 @@ export function Footer({ onCTAClick }: { onCTAClick: () => void }) {
               <div className="w-10 h-10 bg-[#D4AF37] rounded-lg flex items-center justify-center">
                 <Heart className="w-6 h-6 text-[#0A2540]" />
               </div>
-              <span className="text-2xl font-bold text-[#D4AF37]">PreventPlus</span>
+              <span className="text-2xl font-bold text-[#D4AF37]">Equipe PreventPlus</span>
             </div>
             <p className="text-white/70 leading-relaxed italic">
-              Consultoria Ricardo Chaves. Excelência no cuidado sênior há 28 anos no Rio.
+              A segurança de quem conhece o mercado. Consultoria liderada por Ricardo Chaves, com 30 anos de experiênciq em Saúde Suplementar.
             </p>
           </div>
 
@@ -46,7 +46,7 @@ export function Footer({ onCTAClick }: { onCTAClick: () => void }) {
               <li>
                 {/* ATUALIZADO: Link direto para a Rede Credenciada oficial */}
                 <a 
-                  href="https://www.preventsenior.com.br/rede-de-atendimento?tab=medicos" 
+                  href="https://drive.google.com/file/d/1BiXKo7Im87oOLqw_dP5SLdadTTG7F_yO/view?usp=sharing" 
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="text-white/70 hover:text-[#D4AF37] transition-colors flex items-center gap-2 group"
