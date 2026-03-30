@@ -1,6 +1,7 @@
-import { ShieldCheck, Cpu, Heart } from 'lucide-react';
+import { ShieldCheck, Cpu, Heart, Send } from 'lucide-react';
 
-export function Differentials() {
+// Adicionamos a prop onCTAClick aqui na entrada do componente
+export function Differentials({ onCTAClick }: { onCTAClick: () => void }) {
   return (
     /* Adicionado o ID unidade-havai para a âncora do Footer */
     <section id="unidade-havai" className="py-24 bg-white border-t border-gray-100 overflow-hidden">
@@ -62,11 +63,12 @@ export function Differentials() {
               </p>
 
               <div className="pt-6">
+                {/* BOTÃO CORRIGIDO: Agora chama onCTAClick e mudou o texto */}
                 <button 
-                  onClick={() => window.dispatchEvent(new CustomEvent('open-whatsapp-modal'))}
-                  className="w-full lg:w-auto bg-[#D4AF37] hover:bg-[#B8941F] text-[#0A2540] font-black py-4 px-12 rounded-2xl shadow-lg shadow-[#D4AF37]/30 transition-all transform hover:-translate-y-1 active:scale-95 text-center uppercase tracking-widest text-sm"
+                  onClick={onCTAClick}
+                  className="w-full lg:w-auto bg-[#D4AF37] hover:bg-[#B8941F] text-[#0A2540] font-black py-4 px-12 rounded-2xl shadow-lg shadow-[#D4AF37]/30 transition-all transform hover:-translate-y-1 active:scale-95 text-center uppercase tracking-widest text-sm flex items-center justify-center gap-3 mx-auto lg:mx-0"
                 >
-                  Falar com o Consultor Ricardo
+                  <Send className="w-4 h-4" /> Fale com um consultor
                 </button>
               </div>
             </div>

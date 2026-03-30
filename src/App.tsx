@@ -32,12 +32,15 @@ function HomePageContent() {
       <Header onCTAClick={() => setIsFormOpen(true)} />
       <Hero onCTAClick={() => setIsFormOpen(true)} />
       <Network />
+      
+      {/* AJUSTE AQUI: Adicionado o onCTAClick para o botão do vídeo funcionar */}
       <div id="unidade-havai">
-        <Differentials />
+        <Differentials onCTAClick={() => setIsFormOpen(true)} />
       </div>
+
       <Pricing onCTAClick={() => setIsFormOpen(true)} />
       
-      {/* CORREÇÃO AQUI: Passando a função para o Footer abrir o modal */}
+      {/* Footer já está correto */}
       <Footer onCTAClick={() => setIsFormOpen(true)} />
       
       <LeadModal 
