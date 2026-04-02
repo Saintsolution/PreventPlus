@@ -58,12 +58,21 @@ export function Hero({ onCTAClick }: { onCTAClick: () => void }) {
 
   return (
     <section className="relative bg-[#0A2540] pt-10 pb-28 overflow-hidden">
+      {/* Hospital Background - Efeito Fade-In Invertido */}
       <div className="absolute inset-0 z-0">
-        <img src="/hospital.png" className="w-full h-full object-cover opacity-10" alt="Fundo Hospitalar" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0A2540]/60 via-[#0A2540] to-[#0A2540]"></div>
-      </div>
+        <img 
+          src="/hospital.png" 
+          className="w-full h-full object-cover opacity-30" // Aumentei um pouco a opacidade para ela aparecer bem onde o gradiente acaba
+          alt="Fundo Hospitalar" 
+        />
+        {/* Gradiente de Sombra: Topo Sólido -> Fundo Transparente */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0A2540] via-[#0A2540]/80 to-transparent"></div>
+      1.  </div>
 
       <div className="container mx-auto px-4 relative z-10">
+        
+        {/* GRUPO DE TARJAS CENTRALIZADAS */}
+        {/* ... restante do código ... */}
         <div className="flex flex-col items-center mb-20 space-y-4 text-center">
           
           <div className="bg-[#0D3A5F] rounded-[32px] py-8 px-8 md:px-16 shadow-2xl border border-white/10 relative overflow-hidden max-w-5xl w-full">
