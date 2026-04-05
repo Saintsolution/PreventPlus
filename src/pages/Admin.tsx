@@ -30,6 +30,7 @@ interface Indicador {
 }
 
 interface Venda {
+  row_number?: number | string;
   os?: string | number;
   data?: string;
   id_indicador: string | number;
@@ -133,42 +134,43 @@ export function Admin() {
   const LINK_PEGA_DETALHES_VENDAS = 'https://n8n.saintsolution.com.br/webhook/d0502a49-0420-4130-947b-a568bdc51b34';
 
   const normalizarIndicadores = (data: any): Indicador[] => {
-    if (!Array.isArray(data)) return [];
-    return data.map((item: any) => ({
-      id: normalizeRef(item.id),
-      nome: toStr(item.nome),
-      local: toStr(item.local),
-      whatsapp: toStr(item.whatsapp),
-      status: toStr(item.status || 'ativo'),
-      vendas: item.vendas,
-    }));
-  };
+  if (!Array.isArray(data)) return [];
+  return data.map((item: any) => ({
+    id: normalizeRef(item.id),
+    nome: toStr(item.nome),
+    local: toStr(item.local),
+    whatsapp: toStr(item.whatsapp),
+    status: toStr(item.status || 'ativo'),
+    vendas: item.vendas,
+  }));
+};
 
   const normalizarVendas = (data: any): Venda[] => {
-    if (!Array.isArray(data)) return [];
-    return data.map((item: any) => ({
-      os: normalizeOs(item.os),
-      data: toStr(item.data),
-      id_indicador: normalizeRef(item.id_indicador),
-      cliente_nome: toStr(item.cliente_nome),
-      cod_plano: toStr(item.cod_plano),
-      telefone: toStr(item.telefone),
-      email: toStr(item.email),
-      status: toStr(item.status || 'aberto') as VendaStatus,
-      updated_at: toStr(item.updated_at),
-      observacao: toStr(item.observacao),
-    }));
-  };
+  if (!Array.isArray(data)) return [];
+  return data.map((item: any) => ({
+    row_number: item.row_number,
+    os: normalizeOs(item.os),
+    data: toStr(item.data),
+    id_indicador: normalizeRef(item.id_indicador),
+    cliente_nome: toStr(item.cliente_nome),
+    cod_plano: toStr(item.cod_plano),
+    telefone: toStr(item.telefone),
+    email: toStr(item.email),
+    status: toStr(item.status || 'aberto') as VendaStatus,
+    updated_at: toStr(item.updated_at),
+    observacao: toStr(item.observacao),
+  }));
+};
 
   const normalizarPagamentos = (data: any): Pagamento[] => {
-    if (!Array.isArray(data)) return [];
-    return data.map((item: any) => ({
-      data_baixa: toStr(item.data_baixa),
-      os: normalizeOs(item.os),
-      id_indicador: normalizeRef(item.id_indicador),
-      valor_pago: Number(item.valor_pago) || 0,
-    }));
-  };
+  if (!Array.isArray(data)) return [];
+  return data.map((item: any) => ({
+    data_baixa: toStr(item.data_baixa),
+    os: normalizeOs(item.os),
+    id_indicador: normalizeRef(item.id_indicador),
+    valor_pago: Number(item.valor_pago) || 0,
+  }));
+};
 
   const carregarDados = async () => {
     setLoading(true);
@@ -308,17 +310,18 @@ export function Admin() {
 
   const abrirNovaVenda = () => {
     const novaVenda: Venda = {
-      os: '',
-      data: getTodayBR(),
-      id_indicador: '',
-      cliente_nome: '',
-      cod_plano: '',
-      telefone: '',
-      email: '',
-      status: 'aberto',
-      updated_at: new Date().toISOString(),
-      observacao: 'nenhuma',
-    };
+  row_number: '',
+  os: '',
+  data: getTodayBR(),
+  id_indicador: '',
+  cliente_nome: '',
+  cod_plano: '',
+  telefone: '',
+  email: '',
+  status: 'aberto',
+  updated_at: new Date().toISOString(),
+  observacao: 'nenhuma',
+};
 
     setVendaOriginal(null);
     setSelectedVenda(novaVenda);
@@ -342,19 +345,19 @@ export function Admin() {
       const statusNovo = toStr(selectedVenda.status || 'aberto');
 
       const payloadVenda: Venda = {
-        ...selectedVenda,
-        os: normalizeOs(selectedVenda.os),
-        id_indicador: normalizeRef(selectedVenda.id_indicador),
-        cliente_nome: toStr(selectedVenda.cliente_nome),
-        cod_plano: toStr(selectedVenda.cod_plano),
-        telefone: toStr(selectedVenda.telefone),
-        email: toStr(selectedVenda.email),
-        status: statusNovo as VendaStatus,
-        data: toStr(selectedVenda.data || getTodayBR()),
-        updated_at: new Date().toISOString(),
-        observacao: toStr(selectedVenda.observacao || 'nenhuma'),
-      };
-
+  ...selectedVenda,
+  row_number: selectedVenda.row_number,
+  os: normalizeOs(selectedVenda.os),
+  id_indicador: normalizeRef(selectedVenda.id_indicador),
+  cliente_nome: toStr(selectedVenda.cliente_nome),
+  cod_plano: toStr(selectedVenda.cod_plano),
+  telefone: toStr(selectedVenda.telefone),
+  email: toStr(selectedVenda.email),
+  status: statusNovo as VendaStatus,
+  data: toStr(selectedVenda.data || getTodayBR()),
+  updated_at: new Date().toISOString(),
+  observacao: toStr(selectedVenda.observacao || 'nenhuma'),
+};
       if (!payloadVenda.id_indicador) {
         alert('Selecione a referência do indicador.');
         return;
@@ -387,11 +390,14 @@ export function Admin() {
         }
 
         const dataOS = await resOS.json();
-        const osGerada =
-          toStr(dataOS?.os) ||
-          toStr(dataOS?.numero_os) ||
-          toStr(dataOS?.numero) ||
-          toStr(dataOS?.value);
+
+const payloadOS = Array.isArray(dataOS) ? dataOS[0] : dataOS;
+
+const osGerada =
+  toStr(payloadOS?.os) ||
+  toStr(payloadOS?.numero_os) ||
+  toStr(payloadOS?.numero) ||
+  toStr(payloadOS?.value);
 
         if (!osGerada) {
           alert('O webhook gerou resposta, mas não trouxe a OS.');
