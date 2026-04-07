@@ -30,7 +30,7 @@ export function Header({ onCTAClick }: { onCTAClick: () => void }) {
           className="bg-[#D4AF37] text-[#0A2540] px-6 py-3 md:px-10 md:py-4 rounded-xl md:rounded-2xl font-black uppercase text-[11px] tracking-[1px] md:tracking-[2px] hover:bg-white hover:scale-105 transition-all flex items-center justify-center gap-2 md:gap-3 shadow-lg shadow-[#D4AF37]/20 active:scale-95 w-full md:w-auto"
         >
           <Send className="w-4 h-4 md:w-5 md:h-5" /> 
-          <span className="whitespace-nowrap">Faça o seu Cadastro</span>
+          <span className="whitespace-nowrap">Cotação sem Compromisso</span>
         </button>
       </div>
     </header>

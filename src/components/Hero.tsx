@@ -120,7 +120,7 @@ export function Hero({ onCTAClick }: { onCTAClick: () => void }) {
                 onClick={onCTAClick}
                 className="group inline-flex items-center gap-3 bg-[#0A2540] border-2 border-[#D4AF37]/50 text-white px-10 py-5 rounded-2xl font-black uppercase tracking-[3px] text-sm italic shadow-2xl hover:bg-[#D4AF37] hover:text-[#0A2540] hover:border-[#D4AF37] transition-all duration-300 transform hover:scale-105 active:scale-95"
               >
-                Solicitar Cadastro
+                Solicitar Cotação
                 <MessageCircle className="w-5 h-5 text-[#D4AF37] group-hover:text-[#0A2540]" />
               </button>
             </div>
