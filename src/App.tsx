@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useParams } from 'react-router-dom';
 
-// Importações com CHAVES {} porque seus arquivos usam "export function"
+// Importações mantidas exatamente como você usa
 import { Header } from './components/Header'; 
 import { Hero } from './components/Hero';
 import { Network } from './components/Network';
@@ -22,12 +22,14 @@ function HomePageContent() {
     }
   }, [id]);
 
-  const handleOpenCadastro = () => {
+  // Função para abrir o Modal no modo E-MAIL (Resend)
+  const handleOpenEmail = () => {
     setIsEmailMode(true);
     setIsFormOpen(true);
   };
 
-  const handleOpenWhatsApp = () => {
+  // Função para abrir o Modal no modo WHATSAPP / LIGAÇÃO (Direto)
+  const handleOpenDirect = () => {
     setIsEmailMode(false);
     setIsFormOpen(true);
   };
@@ -36,14 +38,24 @@ function HomePageContent() {
 
   return (
     <div className="min-h-screen bg-white">
-      <Header onCTAClick={handleOpenCadastro} />
-      <Hero onCTAClick={handleOpenWhatsApp} />
+      {/* HEADER: Agora configurado para o modo Ligação/WhatsApp */}
+      <Header onCTAClick={handleOpenEmail} onPhoneClick={handleOpenDirect} />
+      
+      {/* HERO: Recebe as duas ações: Enviar Dados (E-mail) e Fale pelo WhatsApp */}
+      <Hero onCTAClick={handleOpenEmail} onPhoneClick={handleOpenDirect} />
+      
       <Network />
+      
       <div id="unidade-havai">
-        <Differentials onCTAClick={handleOpenWhatsApp} />
+        {/* DIFFERENTIALS: Configurado para o botão de WhatsApp */}
+        <Differentials onPhoneClick={handleOpenDirect} />
       </div>
-      <Pricing onCTAClick={handleOpenWhatsApp} />
-      <Footer onCTAClick={handleOpenWhatsApp} />
+      
+      {/* PRICING: Botão inferior configurado para WhatsApp */}
+      <Pricing onPhoneClick={handleOpenDirect} />
+      
+      {/* FOOTER: Agora simplificado apenas com Política de Privacidade internamente */}
+      <Footer onCTAClick={handleOpenEmail} />
       
       <LeadModal 
         isOpen={isFormOpen} 

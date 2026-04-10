@@ -1,6 +1,6 @@
-import { Send } from 'lucide-react';
+import { MessageCircle } from 'lucide-react';
 
-export function Differentials({ onCTAClick }: { onCTAClick: () => void }) {
+export function Differentials({ onPhoneClick }: { onPhoneClick: () => void }) {
   return (
     <section id="unidade-havai" className="py-24 bg-white border-t border-gray-100 overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -21,8 +21,6 @@ export function Differentials({ onCTAClick }: { onCTAClick: () => void }) {
                 className="w-full h-full"
               ></iframe>
             </div>
-
-            {/* As caixinhas "Alta Tecnologia" e "Humanizado" foram removidas daqui para limpar o visual */}
           </div>
 
           {/* LADO DIREITO: TEXTO VENDÁVEL */}
@@ -54,10 +52,10 @@ export function Differentials({ onCTAClick }: { onCTAClick: () => void }) {
 
               <div className="pt-6">
                 <button 
-                  onClick={onCTAClick}
+                  onClick={onPhoneClick}
                   className="w-full lg:w-auto bg-[#D4AF37] hover:bg-[#B8941F] text-[#0A2540] font-black py-4 px-12 rounded-2xl shadow-lg shadow-[#D4AF37]/30 transition-all transform hover:-translate-y-1 active:scale-95 text-center uppercase tracking-widest text-sm flex items-center justify-center gap-3 mx-auto lg:mx-0"
                 >
-                  <Send className="w-4 h-4" /> Fale com um consultor
+                  <MessageCircle className="w-4 h-4" /> Fale pelo WhatsApp
                 </button>
               </div>
             </div>

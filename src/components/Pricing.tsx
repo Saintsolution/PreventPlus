@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Check, Sparkles, MessageCircle, Loader2 } from 'lucide-react';
 
-// Interface para o App.tsx não dar erro
+// Interface ajustada para suportar a nova função
 interface PricingProps {
-  onCTAClick: () => void;
+  onPhoneClick: () => void;
 }
 
-export function Pricing({ onCTAClick }: PricingProps) {
+export function Pricing({ onPhoneClick }: PricingProps) {
   const [plans, setPlans] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -166,10 +166,10 @@ export function Pricing({ onCTAClick }: PricingProps) {
 
         <div className="text-center">
           <button 
-            onClick={onCTAClick} 
+            onClick={onPhoneClick} 
             className="bg-[#0A2540] text-white px-16 py-6 rounded-2xl font-black text-xs uppercase tracking-[4px] shadow-2xl hover:bg-[#D4AF37] hover:text-[#0A2540] transition-all transform hover:scale-105 italic active:scale-95"
           >
-            Falar com Consultor Especialista
+            Fale pelo WhatsApp
           </button>
         </div>
       </div>

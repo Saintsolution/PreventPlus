@@ -1,20 +1,17 @@
 import { useState, useEffect } from 'react';
-import { User, DollarSign, TrendingDown, Shield, MessageCircle, Clock } from 'lucide-react';
+import { User, DollarSign, TrendingDown, Shield, MessageCircle, Clock, PhoneCall, Send } from 'lucide-react';
 
-export function Hero({ onCTAClick }: { onCTAClick: () => void }) {
+// Adicionamos onPhoneClick para o botão de WhatsApp/Ligação
+export function Hero({ onCTAClick, onPhoneClick }: { onCTAClick: () => void; onPhoneClick: () => void }) {
   const [promoText, setPromoText] = useState("AVALIAÇÃO DE PORTABILIDADE GRATUITA");
   const [promoDate, setPromoDate] = useState("2026-04-30T23:59:00"); 
   const [timeLeft, setTimeLeft] = useState("");
 
-  // FUNÇÃO QUE PEGA OS DADOS E ESCREVE NO SITE
   useEffect(() => {
     const fetchPromo = async () => {
       try {
-        // LINK OFICIAL DE LEITURA (GET)
         const response = await fetch('https://n8n.saintsolution.com.br/webhook/e17ae59e-3bfa-4d9a-a4a6-05dda613817f');
         const data = await response.json();
-        
-        // Se o n8n retornar os dados, a gente "escreve" nos estados
         if (data.texto) setPromoText(data.texto);
         if (data.data_limite) setPromoDate(data.data_limite);
       } catch (error) {
@@ -24,7 +21,6 @@ export function Hero({ onCTAClick }: { onCTAClick: () => void }) {
     fetchPromo();
   }, []);
 
-  // LÓGICA DO CONTADOR (Sempre observa o promoDate)
   useEffect(() => {
     const timer = setInterval(() => {
       const now = new Date().getTime();
@@ -58,23 +54,18 @@ export function Hero({ onCTAClick }: { onCTAClick: () => void }) {
 
   return (
     <section className="relative bg-[#0A2540] pt-10 pb-28 overflow-hidden">
-      {/* Hospital Background - Efeito Fade-In Invertido */}
       <div className="absolute inset-0 z-0">
         <img 
           src="/hospital.png" 
-          className="w-full h-full object-cover opacity-30" // Aumentei um pouco a opacidade para ela aparecer bem onde o gradiente acaba
+          className="w-full h-full object-cover opacity-30" 
           alt="Fundo Hospitalar" 
         />
-        {/* Gradiente de Sombra: Topo Sólido -> Fundo Transparente */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#0A2540] via-[#0A2540]/80 to-transparent"></div>
-      1.  </div>
+      </div>
 
       <div className="container mx-auto px-4 relative z-10">
         
-        {/* GRUPO DE TARJAS CENTRALIZADAS */}
-        {/* ... restante do código ... */}
         <div className="flex flex-col items-center mb-20 space-y-4 text-center">
-          
           <div className="bg-[#0D3A5F] rounded-[32px] py-8 px-8 md:px-16 shadow-2xl border border-white/10 relative overflow-hidden max-w-5xl w-full">
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent"></div>
             <h2 className="text-2xl md:text-4xl lg:text-5xl font-black uppercase italic tracking-tighter leading-tight md:leading-none text-white md:whitespace-nowrap">
@@ -96,10 +87,14 @@ export function Hero({ onCTAClick }: { onCTAClick: () => void }) {
 
         <div className="grid lg:grid-cols-2 gap-16 items-start">
           <div className="space-y-12">
-            <div className="inline-flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full border border-white/10">
-              <Shield className="w-4 h-4 text-[#D4AF37]" />
-              <span className="text-sm font-black text-white uppercase italic tracking-widest">Consultoria Premium</span>
-            </div>
+            {/* NOVO BOTÃO: Fale pelo WhatsApp (antigo Consultoria Premium) */}
+            <button 
+              onClick={onPhoneClick}
+              className="inline-flex items-center gap-3 bg-white/5 px-6 py-3 rounded-full border border-white/10 hover:bg-[#25D366]/20 hover:border-[#25D366] transition-all group"
+            >
+              <MessageCircle className="w-5 h-5 text-[#25D366]" />
+              <span className="text-sm font-black text-white uppercase italic tracking-widest">Fale pelo WhatsApp</span>
+            </button>
 
             <div className="space-y-10">
               {mainDifferentials.map((item, index) => (
@@ -116,12 +111,13 @@ export function Hero({ onCTAClick }: { onCTAClick: () => void }) {
             </div>
 
             <div className="pt-4 text-left">
+              {/* BOTÃO ALTERADO: Envie seus Dados (Modo E-mail) */}
               <button 
                 onClick={onCTAClick}
                 className="group inline-flex items-center gap-3 bg-[#0A2540] border-2 border-[#D4AF37]/50 text-white px-10 py-5 rounded-2xl font-black uppercase tracking-[3px] text-sm italic shadow-2xl hover:bg-[#D4AF37] hover:text-[#0A2540] hover:border-[#D4AF37] transition-all duration-300 transform hover:scale-105 active:scale-95"
               >
-                Solicitar Cotação
-                <MessageCircle className="w-5 h-5 text-[#D4AF37] group-hover:text-[#0A2540]" />
+                Envie seus Dados
+                <Send className="w-5 h-5 text-[#D4AF37] group-hover:text-[#0A2540]" />
               </button>
             </div>
           </div>
