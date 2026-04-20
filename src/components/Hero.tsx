@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { User, DollarSign, TrendingDown, Shield, MessageCircle, Clock, PhoneCall, Send } from 'lucide-react';
 
 // Adicionamos onPhoneClick para o botão de WhatsApp/Ligação
-export function Hero({ onCTAClick, onPhoneClick }: { onCTAClick: () => void; onPhoneClick: () => void }) {
+export function Hero({ onCTAClick, onPhoneClick, refId }: { onCTAClick: () => void; onPhoneClick: () => void; refId: string | null }) {
   const [promoText, setPromoText] = useState("AVALIAÇÃO DE PORTABILIDADE GRATUITA");
   const [promoDate, setPromoDate] = useState("2026-04-30T23:59:00"); 
   const [timeLeft, setTimeLeft] = useState("");
