@@ -48,8 +48,8 @@ export function Hero({ onCTAClick, onPhoneClick }: { onCTAClick: () => void; onP
 
   const mainDifferentials = [
     { icon: User, title: 'Portabilidade Segura', description: 'Mude para a PREVENT SENIOR mantendo seus direitos. Analisamos sua carência sem perda de cobertura.' },
-    { icon: DollarSign, title: 'Segurança Financeira', description: 'Mensalidade sem surpresas após os 50 anos. Zero reajuste por mudança de faixa etária.' },
-    { icon: TrendingDown, title: 'Sem Coparticipação', description: 'Use o quanto precisar, sem custos adicionais. Valor fixo mensal sem taxas extras.' },
+    { icon: DollarSign, title: 'Segurança Financeira', description: 'Sem reajuste por faixa etária a partir de 44 anos e sem coparticipação.' },
+    { icon: TrendingDown, title: 'Sem Limite de Idade', description: 'Do recém nascido à melhor idade sem limite.' },
   ];
 
   return (
@@ -69,8 +69,8 @@ export function Hero({ onCTAClick, onPhoneClick }: { onCTAClick: () => void; onP
           <div className="bg-[#0D3A5F] rounded-[32px] py-8 px-8 md:px-16 shadow-2xl border border-white/10 relative overflow-hidden max-w-5xl w-full">
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent"></div>
             <h2 className="text-2xl md:text-4xl lg:text-5xl font-black uppercase italic tracking-tighter leading-tight md:leading-none text-white md:whitespace-nowrap">
-              AVALIAMOS SUA <br className="md:hidden" />
-              <span className="text-[#D4AF37]">PORTABILIDADE</span>
+              PORTABILIDADE <br className="md:hidden" />
+              <span className="text-[#D4AF37]">E COMPRA DE CARÊNCIA</span>
             </h2>
           </div>
 
