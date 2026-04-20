@@ -38,11 +38,19 @@ function HomePageContent() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* HEADER: Agora configurado para o modo Ligação/WhatsApp */}
-      <Header onCTAClick={handleOpenEmail} onPhoneClick={handleOpenDirect} />
+      {/* HEADER: Passando o refId para o rastreio da ligação direta */}
+      <Header 
+        onCTAClick={handleOpenEmail} 
+        onPhoneClick={handleOpenDirect} 
+        refId={finalRefId} 
+      />
       
-      {/* HERO: Recebe as duas ações: Enviar Dados (E-mail) e Fale pelo WhatsApp */}
-      <Hero onCTAClick={handleOpenEmail} onPhoneClick={handleOpenDirect} />
+      {/* HERO: Também recebe o refId caso precise rastrear cliques diretos */}
+      <Hero 
+        onCTAClick={handleOpenEmail} 
+        onPhoneClick={handleOpenDirect} 
+        refId={finalRefId} 
+      />
       
       <Network />
       
