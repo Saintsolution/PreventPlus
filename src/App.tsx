@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useParams } from 'react-router-dom';
 
-// Importações mantidas exatamente como você usa
+// Importações mantidas
 import { Header } from './components/Header'; 
 import { Hero } from './components/Hero';
 import { Network } from './components/Network';
@@ -10,6 +10,9 @@ import { Pricing } from './components/Pricing';
 import { Footer } from './components/Footer';
 import { LeadModal } from './components/LeadModal'; 
 import { Admin } from './pages/Admin';
+
+// IMPORTAÇÃO DA NOVA PÁGINA
+import { Privacy } from './pages/Privacy';
 
 function HomePageContent() {
   const { id } = useParams(); 
@@ -22,13 +25,11 @@ function HomePageContent() {
     }
   }, [id]);
 
-  // Função para abrir o Modal no modo E-MAIL (Resend)
   const handleOpenEmail = () => {
     setIsEmailMode(true);
     setIsFormOpen(true);
   };
 
-  // Função para abrir o Modal no modo WHATSAPP / LIGAÇÃO (Direto)
   const handleOpenDirect = () => {
     setIsEmailMode(false);
     setIsFormOpen(true);
@@ -38,14 +39,12 @@ function HomePageContent() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* HEADER: Passando o refId para o rastreio da ligação direta */}
       <Header 
         onCTAClick={handleOpenEmail} 
         onPhoneClick={handleOpenDirect} 
         refId={finalRefId} 
       />
       
-      {/* HERO: Também recebe o refId caso precise rastrear cliques diretos */}
       <Hero 
         onCTAClick={handleOpenEmail} 
         onPhoneClick={handleOpenDirect} 
@@ -55,14 +54,11 @@ function HomePageContent() {
       <Network />
       
       <div id="unidade-havai">
-        {/* DIFFERENTIALS: Configurado para o botão de WhatsApp */}
         <Differentials onPhoneClick={handleOpenDirect} />
       </div>
       
-      {/* PRICING: Botão inferior configurado para WhatsApp */}
       <Pricing onPhoneClick={handleOpenDirect} />
       
-      {/* FOOTER: Agora simplificado apenas com Política de Privacidade internamente */}
       <Footer onCTAClick={handleOpenEmail} />
       
       <LeadModal 
@@ -80,6 +76,11 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/admin" element={<Admin />} />
+        
+        {/* NOVA ROTA DE PRIVACIDADE */}
+        <Route path="/privacidade" element={<Privacy />} />
+
+        {/* LÓGICA DE REFERRAL MANTIDA */}
         <Route path="/" element={<HomePageContent />} />
         <Route path="/:id" element={<HomePageContent />} />
         <Route path="*" element={<HomePageContent />} />

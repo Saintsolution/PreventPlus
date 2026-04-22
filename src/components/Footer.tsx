@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import { Heart, Lock, ExternalLink, ShieldCheck } from 'lucide-react';
 
 interface FooterProps {
@@ -6,12 +7,15 @@ interface FooterProps {
 }
 
 export function Footer({ onCTAClick }: FooterProps) {
-  // Função para scroll suave que você já usava
+  // Função para scroll suave adaptada para funcionar entre rotas
   const handleScrollTo = (id: string) => (e: React.MouseEvent) => {
-    e.preventDefault();
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+    // Se estivermos na home, faz o scroll. Se não, o href="/#id" cuida disso.
+    if (window.location.pathname === '/') {
+      e.preventDefault();
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   };
 
@@ -20,25 +24,29 @@ export function Footer({ onCTAClick }: FooterProps) {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           
-          {/* Coluna 1: Logo - Mantida */}
+          {/* Coluna 1: Logo e Branding */}
           <div>
-            <div className="flex items-center gap-2 mb-6">
+            <Link to="/" className="flex items-center gap-2 mb-6 hover:opacity-80 transition-opacity">
               <div className="w-10 h-10 bg-[#D4AF37] rounded-lg flex items-center justify-center">
                 <Heart className="w-6 h-6 text-[#0A2540]" />
               </div>
               <span className="text-2xl font-bold text-[#D4AF37]">Equipe PreventPlus</span>
-            </div>
-            <p className="text-white/70 leading-relaxed italic">
+            </Link>
+            <p className="text-white/70 leading-relaxed italic text-sm">
               A segurança de quem conhece o mercado. Consultoria liderada por Ricardo Chaves, com 30 anos de experiência em Saúde Suplementar.
             </p>
           </div>
 
-          {/* Coluna 2: Navegação - Mantida */}
+          {/* Coluna 2: Navegação (Links inteligentes com /#) */}
           <div>
-            <h4 className="text-lg font-bold mb-6 text-[#D4AF37] border-b border-[#D4AF37]/20 pb-2">Navegação</h4>
+            <h4 className="text-lg font-bold mb-6 text-[#D4AF37] border-b border-[#D4AF37]/20 pb-2 uppercase tracking-tighter italic">Navegação</h4>
             <ul className="space-y-3">
               <li>
-                <a href="#" onClick={handleScrollTo('planos')} className="text-white/70 hover:text-[#D4AF37] transition-colors flex items-center gap-2">
+                <a 
+                  href="/#planos" 
+                  onClick={handleScrollTo('planos')} 
+                  className="text-white/70 hover:text-[#D4AF37] transition-colors flex items-center gap-2 text-sm"
+                >
                   <span className="w-1.5 h-1.5 bg-[#D4AF37] rounded-full"></span> Planos Disponíveis
                 </a>
               </li>
@@ -47,7 +55,7 @@ export function Footer({ onCTAClick }: FooterProps) {
                   href="https://drive.google.com/file/d/1BiXKo7Im87oOLqw_dP5SLdadTTG7F_yO/view?usp=sharing" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="text-white/70 hover:text-[#D4AF37] transition-colors flex items-center gap-2 group"
+                  className="text-white/70 hover:text-[#D4AF37] transition-colors flex items-center gap-2 group text-sm"
                 >
                   <span className="w-1.5 h-1.5 bg-[#D4AF37] rounded-full"></span> 
                   Rede Credenciada
@@ -57,18 +65,34 @@ export function Footer({ onCTAClick }: FooterProps) {
             </ul>
           </div>
 
-          {/* Coluna 3: Institucional - Mantida */}
+          {/* Coluna 3: Institucional */}
           <div>
-            <h4 className="text-lg font-bold mb-6 text-[#D4AF37] border-b border-[#D4AF37]/20 pb-2">Institucional</h4>
+            <h4 className="text-lg font-bold mb-6 text-[#D4AF37] border-b border-[#D4AF37]/20 pb-2 uppercase tracking-tighter italic">Institucional</h4>
             <ul className="space-y-3">
-              <li><a href="#" onClick={handleScrollTo('network-top')} className="text-white/70 hover:text-[#D4AF37] transition-colors">Sobre Nós</a></li>
-              <li><a href="#" onClick={handleScrollTo('unidade-havai')} className="text-white/70 hover:text-[#D4AF37] transition-colors">Unidade Havaí</a></li>
+              <li>
+                <a 
+                  href="/#network-top" 
+                  onClick={handleScrollTo('network-top')} 
+                  className="text-white/70 hover:text-[#D4AF37] transition-colors text-sm"
+                >
+                  Sobre Nós
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="/#unidade-havai" 
+                  onClick={handleScrollTo('unidade-havai')} 
+                  className="text-white/70 hover:text-[#D4AF37] transition-colors text-sm"
+                >
+                  Unidade Havaí
+                </a>
+              </li>
             </ul>
           </div>
 
-          {/* Coluna 4: Privacidade (Substituindo Contatos) */}
+          {/* Coluna 4: Segurança e Link para Página de Privacidade */}
           <div>
-            <h4 className="text-lg font-bold mb-6 text-[#D4AF37] border-b border-[#D4AF37]/20 pb-2">Segurança</h4>
+            <h4 className="text-lg font-bold mb-6 text-[#D4AF37] border-b border-[#D4AF37]/20 pb-2 uppercase tracking-tighter italic">Segurança</h4>
             <div className="space-y-4">
               <div className="flex items-center gap-2 text-white/50">
                 <ShieldCheck className="w-5 h-5 text-[#D4AF37]" />
@@ -77,12 +101,14 @@ export function Footer({ onCTAClick }: FooterProps) {
               <p className="text-white/50 text-[10px] leading-relaxed uppercase italic">
                 Dados protegidos de acordo com a LGPD.
               </p>
-              <button 
-                onClick={() => alert("Texto da Política de Privacidade em breve...")}
-                className="inline-block bg-white/5 hover:bg-white/10 text-white border border-white/10 px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all"
+              
+              {/* TROCAMOS O BUTTON POR LINK PARA A NOVA PÁGINA */}
+              <Link 
+                to="/privacidade"
+                className="inline-block bg-white/5 hover:bg-[#D4AF37] hover:text-[#0A2540] text-white border border-white/10 px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all text-center w-full"
               >
                 Política de Privacidade
-              </button>
+              </Link>
             </div>
           </div>
         </div>
