@@ -47,7 +47,7 @@ export function LeadModal({ isOpen, onClose, refId, isEmailMode }: LeadModalProp
     } else {
       // MODO WHATSAPP DIRETO COM A SUA FRASE
       const mensagem = encodeURIComponent(`Olá, Ví o Anuncio na Internet e gostaria de mais informações`);
-      window.open(`https://wa.me/5521964791774?text=${mensagem}`, '_blank');
+      window.open(`https://wa.me/5521976802973?text=${mensagem}`, '_blank');
       onClose();
     }
   };
@@ -114,7 +114,7 @@ export function LeadModal({ isOpen, onClose, refId, isEmailMode }: LeadModalProp
                 Chamar no WhatsApp
               </button>
               
-              <a href="tel:+5521964791774" className="w-full bg-[#0A2540] text-white py-6 rounded-2xl font-black uppercase flex items-center justify-center gap-3 hover:scale-[1.02] transition-transform shadow-xl">
+              <a href="tel:+5521976802973" className="w-full bg-[#0A2540] text-white py-6 rounded-2xl font-black uppercase flex items-center justify-center gap-3 hover:scale-[1.02] transition-transform shadow-xl">
                 <PhoneCall className="w-6 h-6" />
                 Ligar Agora
               </a>

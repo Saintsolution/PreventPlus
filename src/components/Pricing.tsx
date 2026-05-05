@@ -55,7 +55,7 @@ export function Pricing({ onPhoneClick }: PricingProps) {
 
   const handlePlanSelection = (plano: string, faixa: string) => {
     const refId = localStorage.getItem('referral_id') || 'DIRETO';
-    const phoneNumber = "5521964791774"; 
+    const phoneNumber = "5521976802973"; 
     
     const mensagem = encodeURIComponent(
       `*INTERESSE EM PLANO - PREVENT PLUS*\n\n` +

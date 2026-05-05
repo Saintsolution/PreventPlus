@@ -4,7 +4,6 @@ import { Shield, Lock, Eye, FileText } from 'lucide-react';
 export function Privacy() {
   return (
     <div className="min-h-screen bg-[#0A2540] text-white font-sans">
-      {/* Header Simples com a identidade visual */}
       <nav className="border-b border-white/10 py-6 bg-[#0D3A5F]">
         <div className="container mx-auto px-4 flex items-center gap-2">
            <div className="w-8 h-8 bg-[#D4AF37] rounded flex items-center justify-center">
@@ -21,7 +20,6 @@ export function Privacy() {
           </h1>
 
           <div className="space-y-10 text-white/80 leading-relaxed">
-            
             <section className="flex gap-4">
               <div className="flex-shrink-0"><Lock className="w-6 h-6 text-[#D4AF37]" /></div>
               <div>
@@ -45,7 +43,6 @@ export function Privacy() {
                 <p>Seus dados são utilizados exclusivamente para entrar em contato e fornecer a Consultoria Premium solicitada. Não compartilhamos suas informações com terceiros para fins publicitários.</p>
               </div>
             </section>
-
           </div>
 
           <div className="mt-12 pt-8 border-t border-white/10 text-center">
