@@ -24,7 +24,7 @@ export function Header({ onCTAClick, onPhoneClick, refId }: {
       console.log("Erro no rastreio");
     }
 
-    window.location.href = "tel:+5521976802973";
+    window.location.href = "tel:+552123420050";
   };
 
   return (
