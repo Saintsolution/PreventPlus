@@ -23,7 +23,7 @@ export const handler = async (event: any) => {
 
     const { data, error } = await resend.emails.send({
       from: 'Site Prevent <vendas@preventplus.com.br>',
-      to: 'adesaodigital@gmail.com',
+      to: 'vendaspreventplus@gmail.com',
       subject: `NOVA COTAÇÃO - ${nome.toUpperCase()}`,
       html: `
         <div style="font-family: sans-serif; color: #0A2540;">
